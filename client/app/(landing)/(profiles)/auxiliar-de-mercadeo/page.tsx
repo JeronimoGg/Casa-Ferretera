@@ -1,12 +1,13 @@
+import LayoutProfile from "@/app/(landing)/layout";
+
 const AuxiliarDeMercadeoPage = () => {
+  // El título se define aquí y se pasa a LayoutProfile
+  const titulo = "Auxiliar de Mercadeo";
+
   return (
-    <div>
-      <div>
-        <div>
-          <h1>asd</h1>
-        </div>
-      </div>
-    </div>
+    <LayoutProfile titulo={titulo}>
+      <div>asd</div>
+    </LayoutProfile>
   );
 };
 
