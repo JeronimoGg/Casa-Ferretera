@@ -1,7 +1,7 @@
 
 
-import { Logo } from "@/components/comp/logo";
-import { MenuBar } from "@/components/comp/menu";
+import { Logo } from "@/components/navegacion/comp/logo";
+import { MenuBar } from "@/components/navegacion/comp/menu";
 
 
 export const Navbar = () => {

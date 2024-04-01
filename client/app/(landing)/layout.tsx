@@ -1,4 +1,4 @@
-import { Navbar } from "./_components/navbar";
+import { Navbar } from "../../components/navegacion/navbar";
 
 const LayoutProfile = ({ children }: { children: React.ReactNode }) => {
   return (
