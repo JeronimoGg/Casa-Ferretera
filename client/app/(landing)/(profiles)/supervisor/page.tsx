@@ -1,8 +1,15 @@
+import LayoutProfile from "../../layout";
+
 const SupervisorPage = () => {
+
+    const titulo = "Supervisor";
+
     return (
-        <div>
-            <h1>Supervisor</h1>
-        </div>
+        <LayoutProfile titulo={titulo}>
+            <div>
+                asd
+            </div>
+        </LayoutProfile>
     )
 }
 

@@ -1,11 +1,15 @@
+import { Layout } from "lucide-react";
+import LayoutProfile from "../../layout";
+
 const PromotorPage = () => {
+    const titulo = "Promotor";
+
     return (
-        <div>
-            <h1>Promdotor</h1>
+        <LayoutProfile titulo={titulo}>
             <div>
-                hola
+                asd
             </div>
-        </div>
+        </LayoutProfile>
     )
 }
 

@@ -1,14 +1,21 @@
 import { Navbar } from "../../components/navegacion/navbar";
+import { ReactNode } from "react";
 
-const LayoutProfile = ({ children }: { children: React.ReactNode }) => {
+const LayoutProfile = ({
+  children,
+  titulo,
+}: {
+  children: ReactNode;
+  titulo: string;
+}) => {
   return (
-    <body>
-      <header>
-        <Navbar />
+    <div>
+      {" "}
+      <header className="h-8">
+        <Navbar titulo={titulo} />
       </header>
-      <hr />
       {children}
-    </body>
+    </div>
   );
 };
 

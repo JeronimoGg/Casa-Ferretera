@@ -1,8 +1,14 @@
+import LayoutProfile from "../../layout";
+
 const ProveedorPage = () => {
+    const titulo = "Proveedor";
+
     return (
-        <div>
-            <h1>Proveedor</h1>
-        </div>
+        <LayoutProfile titulo={titulo}>
+            <div>
+                asd
+            </div>
+        </LayoutProfile>
     )
 }
 
