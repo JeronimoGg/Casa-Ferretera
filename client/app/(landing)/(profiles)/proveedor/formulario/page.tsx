@@ -21,28 +21,29 @@ import { Input } from "@/components/ui/input";
 const formSchema = z.object({
   enterprise: z.string().nonempty("Este campo es requerido"),
   nombre: z.string().nonempty("Este campo es requerido"),
-  documento: z.string().nonempty("Este campo es requerido"),
+  documento: z.number().min(10, "Este campo debe tener al menos 10 caracteres"),
   email: z.string().email("Este campo debe ser un email").nonempty("Este campo es requerido"),
   sede: z.enum(["asd","bsd","csd","fsx"]),
   date: z.date(),
   hora: z.enum([
-    "7:00 - 8:00",
-    "8:00 - 9:00",
-    "9:00 - 10:00",
-    "10:00 - 11:00",
-    "11:00 - 12:00",
-    "12:00 - 13:00",
-    "13:00 - 14:00",
-    "14:00 - 15:00",
-    "15:00 - 16:00",
-    "16:00 - 17:00",
-    "17:00 - 18:00",
-    "18:00 - 19:00",
-    "19:00 - 20:00",
-    "20:00 - 21:00",
+    "7:00 a.m. - 8:00 a.m.",
+    "8:00 a.m. - 9:00 a.m.",
+    "9:00 a.m. - 10:00 a.m.",
+    "10:00 a.m. - 11:00 a.m.",
+    "11:00 a.m. - 12:00 p.m.",
+    "12:00 p.m. - 1:00 p.m.",
+    "1:00 p.m. - 2:00 p.m.",
+    "2:00 p.m. - 3:00 p.m.",
+    "3:00 p.m. - 4:00 p.m.",
+    "4:00 p.m. - 5:00 p.m.",
+    "5:00 p.m. - 6:00 p.m.",
+    "6:00 p.m. - 7:00 p.m.",
+    "7:00 p.m. - 8:00 p.m.",
+    "8:00 p.m. - 9:00 p.m.",
   ]),
   descripcion: z.string().nonempty("Este campo es requerido"),
-});
+})
+
 
 export default function ProfileForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -172,22 +173,46 @@ export default function ProfileForm() {
               </FormItem>
             )}
           /> */}
-          {/* <FormField
+          <FormField
             control={form.control}
-            name="enterprise"
+            name="hora"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Empresa</FormLabel>
-                <FormControl>
-                  <Input placeholder="Empresa" {...field} />
-                </FormControl>
-                <FormDescription>
-                  Esta es tu empresa o nombre de tu negocio.
-                </FormDescription>
+                <FormLabel>Hora</FormLabel>
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="8:00 a.m. - 10:00a.m." />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="7:00 a.m. - 8:00 a.m.">
+                      7:00 a.m. - 8:00 a.m.
+                    </SelectItem>
+                    <SelectItem value="8:00 a.m. - 9:00 a.m.">
+                      8:00 a.m. - 9:00 a.m.
+                    </SelectItem>
+                    <SelectItem value="9:00 a.m. - 10:00 a.m.">
+                      9:00 a.m. - 10:00 a.m.
+                    </SelectItem>
+                    <SelectItem value="10:00 a.m. - 11:00 a.m.">
+                      10:00 a.m. - 11:00 a.m.
+                    </SelectItem>
+                    <SelectItem value="11:00 a.m. - 12:00 p.m.">
+                      11:00 a.m. - 12:00 p.m.
+                    </SelectItem>
+                    <SelectItem value="12:00 p.m. - 1:00 p.m.">
+                      12:00 p.m. - 1:00 p.m.
+                    </SelectItem>
+                    <SelectItem value="1:00 p.m. - 2:00 p.m.">
+                      1:00 p.m. - 2:00 p.m.
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
           <FormField
             control={form.control}
             name="descripcion"
