@@ -9,11 +9,12 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from 'next/image'
-export const Servicio = ({ titulo, descripcion, icon, boton}: {
+export const Servicio = ({ titulo, descripcion, icon, boton, link}: {
     titulo: string;
     descripcion: string;
     icon: string;
     boton: string;
+    link: string;
 }) => {
     return(
         <Card className="w-[350px] m-7">
@@ -31,7 +32,7 @@ export const Servicio = ({ titulo, descripcion, icon, boton}: {
             </CardHeader>
             <CardFooter className="flex flex-col items-center">
                 <Button className="hover:bg-gray-200" variant="secondary">
-                    <Link href="/proveedor/formulario">{boton}</Link>
+                    <Link href={link}>{boton}</Link>
                 </Button>
             </CardFooter>
         </Card>

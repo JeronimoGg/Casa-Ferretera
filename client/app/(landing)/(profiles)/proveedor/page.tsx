@@ -17,12 +17,14 @@ const ProveedorPage = () => {
                     descripcion={"Agende una promotoria"}
                     icon={calendar}
                     boton={"Agendar"}
+                    link={"/proveedor/formulario"}
                 />
                 <Servicio 
                     titulo={"Cancelar Promotoria"}
                     descripcion={"Cancele una promotoria"}
                     icon={cancel}
                     boton={"Cancelar"}
+                    link={"#"}
                 />
             </div>
         </LayoutProfile>
