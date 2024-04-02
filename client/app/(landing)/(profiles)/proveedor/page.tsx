@@ -1,16 +1,4 @@
 import LayoutProfile from "../../layout";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import Image from 'next/image';
 import calendar from "@/public/calendar.svg";
 import cancel from "@/public/cancel.svg";
 import { Servicio } from "@/components/card/servicio";
