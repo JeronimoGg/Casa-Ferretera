@@ -12,7 +12,7 @@ const LayoutProfile = ({
   titulo: string;
 }) => {
   return (
-    <div>
+    <>
       <header
         className={cn(
           "fixed top-0 w-full h-16 px-4 border-b shadow-sm bg-white flex items-center",
@@ -21,7 +21,7 @@ const LayoutProfile = ({
         <Navbar titulo={titulo} />
       </header>
       <main className={cn("pt-8", Fuente.className)}>{children}</main>
-    </div>
+    </>
   );
 };
 
