@@ -1,6 +1,9 @@
 import { Navbar } from "../../components/navegacion/navbar";
 import { ReactNode } from "react";
 
+import { cn } from "@/lib/utils";
+import { Fuente } from "@/components/fonts/monserrat";
+
 const LayoutProfile = ({
   children,
   titulo,
@@ -10,11 +13,14 @@ const LayoutProfile = ({
 }) => {
   return (
     <div>
-      {" "}
-      <header className="h-8">
+      <header
+        className={cn(
+          "fixed top-0 w-full h-16 px-4 border-b shadow-sm bg-white flex items-center",
+          Fuente.className
+        )}>
         <Navbar titulo={titulo} />
       </header>
-      {children}
+      <main className={cn("pt-8", Fuente.className)}>{children}</main>
     </div>
   );
 };
