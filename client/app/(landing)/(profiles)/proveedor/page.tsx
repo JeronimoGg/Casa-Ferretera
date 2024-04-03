@@ -3,6 +3,7 @@ import calendar from "@/public/calendar.svg";
 import cancel from "@/public/cancel.svg";
 import { Servicio } from "@/components/card/servicio";
 
+
 const ProveedorPage = () => {
     const titulo = "Proveedor";
     return (
