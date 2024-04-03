@@ -1,9 +1,8 @@
-import Link from "next/link";
 import LayoutProfile from "../../layout";
 import calendar from "@/public/calendar.svg";
 import cancel from "@/public/cancel.svg";
 import { Servicio } from "@/components/card/servicio";
-import { Button } from "@/components/ui/button";
+
 
 const ProveedorPage = () => {
     const titulo = "Proveedor";
@@ -32,17 +31,5 @@ const ProveedorPage = () => {
         </LayoutProfile>
     )
 }
-  const titulo = "Proveedor";
-
-  return (
-    <LayoutProfile titulo={titulo}>
-      <Button>
-        <Link href="/proveedor/formulario">
-          Formulario
-        </Link>
-      </Button>
-    </LayoutProfile>
-  );
-};
 
 export default ProveedorPage;
