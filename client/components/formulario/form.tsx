@@ -1,10 +1,9 @@
 "use client";
-import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { format, getDay, isWeekend, subDays } from "date-fns";
+import { format, isWeekend } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
@@ -33,7 +32,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { DatePickerForm } from "./comp/date";
 
 const formSchema = z.object({
   enterprise: z.string().nonempty("Este campo es requerido"),
@@ -67,14 +65,8 @@ const formSchema = z.object({
 export default function ProfileForm() {
   const onSubmit = () => {};
 
-  // const today = new Date();
-  // const minDate = new Date(today.setDate(today.getDate() + 2));
-
-  // const isWeekend = ({date}: {date:Date}) => {
-  //   if (!date) return false; // Maneja el caso de fecha indefinida
-  //   const day = date.getDay();
-  //   return day === 0 || day === 6; // Retorna verdadero si es sábado (0) o domingo (6)
-  // };
+  const today = new Date();
+  const twoDaysAfter = new Date(today.setDate(today.getDate() + 2));
 
   const FormularioProv = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -185,7 +177,7 @@ export default function ProfileForm() {
               </FormItem>
             )}
           />
-          {/* <FormField
+          <FormField
             control={FormularioProv.control}
             name="date"
             render={({ field }) => (
@@ -213,11 +205,9 @@ export default function ProfileForm() {
                     <Calendar
                       mode="single"
                       selected={field.value}
-                      onSelect={(date) => {
-                        if (!isWeekend(date)){
-                          // Realizar la acción de selección solo si no es fin de semana
-                          field.onChange(date);
-                        }
+                      onSelect={field.onChange}
+                      disabled={(date) => {
+                        return isWeekend(date) || date < twoDaysAfter;
                       }}
                       initialFocus
                     />
@@ -229,7 +219,7 @@ export default function ProfileForm() {
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
           <FormField
             control={FormularioProv.control}
             name="hora"
