@@ -25,7 +25,7 @@ const ProveedorPage = () => {
                     descripcion={"Cancele una promotoria"}
                     icon={cancel}
                     boton={"Cancelar"}
-                    link={"#"}
+                    link={"/proveedor/cancel"}
                 />
             </div>
         </LayoutProfile>
