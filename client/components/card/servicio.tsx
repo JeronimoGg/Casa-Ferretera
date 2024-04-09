@@ -31,7 +31,7 @@ export const Servicio = ({ titulo, descripcion, icon, boton, link}: {
                 <CardDescription>{descripcion}</CardDescription>
             </CardHeader>
             <CardFooter className="flex flex-col items-center">
-                <Button className="hover:bg-gray-200" variant="secondary">
+                <Button className=" bg-gray-500 hover:bg-gray-400" variant="secondary">
                     <Link href={link}>{boton}</Link>
                 </Button>
             </CardFooter>
