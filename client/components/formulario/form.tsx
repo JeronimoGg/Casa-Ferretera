@@ -159,7 +159,7 @@ export default function ProfileForm() {
             name="sede"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Account type</FormLabel>
+                <FormLabel>Sedes</FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>

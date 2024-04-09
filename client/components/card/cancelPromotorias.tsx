@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Image from 'next/image'
+
 export const CancelPromotorias   = ({ numero, nombreEmpresa, nombreProveedor,  sede, fecha, link}: {
     numero: string;
     nombreEmpresa: string;

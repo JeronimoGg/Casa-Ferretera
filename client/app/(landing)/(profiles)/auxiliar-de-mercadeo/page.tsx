@@ -14,22 +14,22 @@ const AuxiliarDeMercadeoPage = () => {
                 <h2 className="text-center text-5xl font-bold mt-9">Servicios</h2>
                 <p className="text-center mt-8 text-xl">Bienvenid@, seleccione el servicio que desea utilizar</p>
             </div>
-            <div className="flex flex-row justify-center mt-16">
+            <aside className="flex flex-row justify-center mt-16">
                 <Servicio 
-                    titulo={"Agendar Promotoria"}
-                    descripcion={"Agende una promotoria"}
+                    titulo={"Revisar Promotorías"}
+                    descripcion={"Verifique el estado de las promotorías."}
                     icon={calendar}
-                    boton={"Agendar"}
-                    link={"/proveedor/formulario"}
+                    boton={"Revisar"}
+                    link={"/auxiliar-de-mercadeo/revisar"}
                 />
                 <Servicio 
                     titulo={"Generar Informes"}
                     descripcion={"Genere informes de las promotorias"}
                     icon={svgReport}
                     boton={"Generar"}
-                    link={"/auxiliar-de-mercado/informes"}
+                    link={"/auxiliar-de-mercadeo/informes"}
                 />
-            </div>
+            </aside>
     </LayoutProfile>
   );
 };
