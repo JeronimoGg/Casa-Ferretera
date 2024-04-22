@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const sequelize = require('./db');
 const authRoutes = require('./routes/auth.routes');
 
@@ -16,6 +17,7 @@ sequelize.authenticate()
 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(cors());
 
 //definicion de las rutas
 app.use('/api/auth', authRoutes);
