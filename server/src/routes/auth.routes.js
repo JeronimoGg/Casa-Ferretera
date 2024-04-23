@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const  { signUpAux, signUpProveedor, signUpPromotorByProveedor, signupSupervisorByAuxMercadeo, signIn } = require('../controller/auth.controller')
-const { verifyToken, isAuxMercadeo, isProveedor } = require('../middleware/authJWT')
+const  { signUpAux, signUpProveedor, signUpPromotorByProveedor, signupSupervisorByAuxMercadeo, signIn } = require('../controller/auth.controller');
+const { verifyToken, isAuxMercadeo, isProveedor } = require('../middleware/authJWT');
 
 const router = new Router();
 
