@@ -65,7 +65,7 @@ const Promotoria = sequelize.define('Promotoria',{
         },
         descripcion: {
             type: DataTypes.STRING(300),
-            allowNull: false
+            allowNull: true
         }
     },{
         tableName: 'promotoria',

@@ -36,10 +36,22 @@ const isProveedor = async (req, res, next) => {
     }
 }
 
+const isSupervisor = async (req, res, next) => {
+    const correo = req.correo;
+    const usuario = await buscarUsuarioPorCorreo(correo);
+    console.log(usuario);
+    if(usuario.tipo === 'Supervisor') {
+        next();
+    } else {
+        return res.status(403).json({message: "No tienes permisos para realizar esta acción"});
+    }
+}
+
 
 
 module.exports = {
     verifyToken,
     isAuxMercadeo,
-    isProveedor
+    isProveedor,
+    isSupervisor
 }
