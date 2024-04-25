@@ -6,7 +6,7 @@ const Sede = require('./Sede');
 const Estado = require('./Estado');
 
 const Promotoria = sequelize.define('Promotoria',{
-        id_promotoria: {
+        id_promotoria : {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
@@ -36,7 +36,7 @@ const Promotoria = sequelize.define('Promotoria',{
             }
         },
         fecha: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false
         },
         horaInicio: {
@@ -55,9 +55,17 @@ const Promotoria = sequelize.define('Promotoria',{
                 key: 'id_estado'
             }
         },
+        calificacion: {
+            type: DataTypes.INTEGER,
+            allowNull: true,   
+        },
         registroFotos: {
             type: DataTypes.STRING(300),
-            allowNull: false
+            allowNull: true
+        },
+        descripcion: {
+            type: DataTypes.STRING(300),
+            allowNull: true
         }
     },{
         tableName: 'promotoria',
