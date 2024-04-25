@@ -131,10 +131,88 @@ const promotoriasPendientes = async (req, res) => {
     res.status(200).json(promotorias);
 }
 
+const agendarPromotoriaPromotor = async (req, res) => {
+    const { nombreSede, fecha, horaInicio, horaFinal, descripcion } = req.body;
+    
+    const correo = req.correo;
+    const promotor = await Promotor.findOne({ where: { correo: correo }});
+    const proveedor = await Proveedor.findOne({ where: { id_proveedor: promotor.id_proveedor }});
+    const sede = await Sede.findOne({ where: { nombre: nombreSede } });
+
+    if(!sede) {
+        return res.status(400).json({ message: 'La sede no existe' });
+    }
+    if(horaFinal < horaInicio) {
+        return res.status(400).json({ message: 'La hora de finalización debe ser mayor a la hora de inicio' });
+    }
+    const promotoriaSolapada = await Promotoria.findAll({
+        where: {
+            fecha: fecha,
+            id_sede: sede.id_sede,
+            [Op.or]: [ 
+                {
+                    horaInicio: { [Op.between]: [horaInicio, horaFinal] }
+                },
+                {
+                    horaFinal: { [Op.between]: [horaInicio, horaFinal] }
+                }
+            ]
+            
+        }
+    })
+
+    if(promotoriaSolapada.length > 0) {
+        return res.status(400).json({ message: 'Ya existe una promotoría en ese horario' });
+    }
+
+    const newPromotoria = new Promotoria({
+        id_promotor: promotor.id_proveedor,
+        id_proveedor: proveedor.id_proveedor,
+        id_sede: sede.id_sede,
+        fecha: fecha,
+        horaInicio: horaInicio,
+        horaFinal: horaFinal,
+        id_estado: 1,
+        descripcion: descripcion
+    });
+
+    await newPromotoria.save();
+    res.status(200).json(newPromotoria)
+
+}
+
+const agregarDescripcion = async(req, res) => {
+    const { id } = req.params;
+    const { descripcion } = req.body;
+    const correo = req.correo;
+    try {
+        const promotoria = await Promotoria.findByPk(id);
+        const promotor = await Promotor.findOne({ where: { correo: correo } });
+        if(promotor.id_promotor != promotoria.id_promotor) {
+            return res.status(400).json({ message: 'No tienes permiso para editar esta promotoria' });
+        }
+        if(!promotoria) {
+            return res.status(400).json({ message: 'No se encontro la promotoria' });
+        }
+
+        promotoria.descripcion = descripcion;
+
+        await promotoria.save();
+
+        return res.status(200).json({ message: 'La descripcion fue agregada con exito' });
+    } catch (error) {
+        console.error('Error al agregar la descripcion', error);
+        res.status(500).json({ message: 'Hubo un error al agregar la descripcion.' });
+    }
+    
+}
+
 module.exports = {
     agendarPromotoriaProveedor,
     promotoriasActivasProveedor,
     promotoriasActivasAuxmercadeo,
     cancelarPromotoria,
-    promotoriasPendientes
+    promotoriasPendientes,
+    agendarPromotoriaPromotor,
+    agregarDescripcion
 }
