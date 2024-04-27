@@ -7,6 +7,7 @@ const router = new Router();
 //Crud para el rol de promotor
 router.get('/promotor', verifyToken, isAuxMercadeo, userController.getPromotor);
 router.delete('/promotor/:id', verifyToken, isAuxMercadeo, userController.deletePromotor);
+router.put('/promotor/:id', verifyToken, isAuxMercadeo, userController.updatePromotor);
 
 //Crud para el rol de proveedor
 router.get('/proveedor', verifyToken, isAuxMercadeo, userController.getProveedor);

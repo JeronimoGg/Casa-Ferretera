@@ -111,11 +111,75 @@ const deleteSupervisor = async (req, res) => {
         res.status(500).json({ error: error.message })
     }
 }
+
+const updatePromotor = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { correo, nombre, calificacion } = req.body;
+        const promotor = await Promotor.update(
+            { correo, nombre, calificacion },
+            { 
+                where: { id_promotor: id } 
+            }
+        );
+
+        if(!promotor) {
+            return res.status(400).json({ message: 'No se encontro el promotor' });
+        }
+
+        return res.status(200).json({ message: 'actualizado correctamente' })
+    } catch (error) {
+        return res.status(500).json({error: error.message})
+    }
+}
+
+const updateProveedor = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { correo, nombre, nombreEmpresa } = req.body;
+        const sede = await Sede.findOne( {where: { nombre: nombreEmpresa }});
+        const proveedor = await Proveedor.update(
+            { correo, nombre, id_sede: sede.id_sede },
+            {
+                where: { id_proveedor: id }
+            }
+        );
+
+        if(!proveedor) {
+            return res.status(400).json({ message: 'No se encontro el proveedor' });
+        }
+
+        return res.status(200).json({ message: 'actualizado correctamente' });
+    } catch (error) {
+        return res.status(500).json({error: error.message})
+    }
+}
+
+const updateSupervisor = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { correo, nombre, nombreEmpresa } = req.body;
+        const empresa = await Empresa.findOne( { where: { nombre: nombreEmpresa }});
+        const supervisor = await Supervisor.update(
+            { correo, nombre, id_empresa: empresa.id_empresa },
+            {
+                where: { id_supervisor: id }
+            }
+        );
+
+        return res.status(200).json({ message: 'actualizado correctamente' });
+    } catch (error) {
+        return res.status(500).json({error: error.message})
+    }
+}
 module.exports = {
     getPromotor,
     getProveedor,
     getSupervisor,
     deletePromotor,
     deleteProveedor,
-    deleteSupervisor
+    deleteSupervisor,   
+    updatePromotor,
+    updateProveedor,
+    updateSupervisor,
 }
