@@ -89,11 +89,12 @@ const signIn = async (req, res) => {
             return res.status(401).json({message: 'usuario no encontrado'});
         }
         const validPassword = await bcrypt.compare(contrasena, usuario.contrasena);
-        if(!validPassword) {
+        if(validPassword === false) {
             return res.status(401).json({message: 'contrasena incorrecta'});
         }
         const token = generateAuthToken(usuario);
-        res.status(200).json({ token });
+        const rol = usuario.tipo
+        res.status(200).json({ token, rol });
     } catch (err) {
         console.error(err);
     }

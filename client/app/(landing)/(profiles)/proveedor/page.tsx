@@ -1,3 +1,4 @@
+"use client";
 import LayoutProfile from "../../layout";
 import calendar from "@/public/calendar.svg";
 import cancel from "@/public/cancel.svg";

@@ -2,6 +2,7 @@ const Promotoria = require('../models/Promotoria');
 const Proveedor = require('../models/Proveedor');
 const Promotor = require('../models/Promotor');
 const Estado = require('../models/Estado');
+const Empresa = require('../models/Empresa');
 const { Op } = require("sequelize");
 const Sede = require('../models/Sede');
 const Supervisor = require('../models/Supervisor');
@@ -52,6 +53,7 @@ const agendarPromotoriaProveedor = async (req, res) => {
         horaInicio: horaInicio,
         horaFinal: horaFinal,
         id_estado: 1,
+        id_empresa: proveedor.id_empresa
     });
 
     await newPromotoria.save();
@@ -73,9 +75,28 @@ const promotoriasActivasProveedor = async (req, res) => {
             id_estado: 1
         }
     })
+    const resultados = await Promise.all(promotorias.map(async (promotoria) => {
+        const promotor = await Promotor.findByPk(promotoria.id_promotor);
+        const sede = await Sede.findByPk(promotoria.id_sede);
+        const estado = await Estado.findByPk(promotoria.id_estado);
+        const empresa = await Empresa.findByPk(promotoria.id_empresa);
 
+        return {
+            id_promotoria: promotoria.id_promotoria,
+            nombre_promotor: promotor.nombre,
+            nombre_proveedor: proveedor.nombre,
+            nombre_sede: sede.nombre,
+            nombre_estado: estado.nombre,
+            nombre_empresa: empresa.nombre,
+            fecha: promotoria.fecha,
+            horaInicio: promotoria.horaInicio,
+            horaFinal: promotoria.horaFinal,
+            descripcion: promotoria.descripcion,
+        };
+    }));
+    
 
-    res.status(200).json(promotorias);
+    res.status(200).json(resultados);
     
 }
 
