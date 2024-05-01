@@ -4,6 +4,7 @@ const Promotor = require('./Promotor');
 const Proveedor = require('./Proveedor');
 const Sede = require('./Sede');
 const Estado = require('./Estado');
+const Empresa = require('./Empresa');
 
 const Promotoria = sequelize.define('Promotoria',{
         id_promotoria : {
@@ -66,6 +67,14 @@ const Promotoria = sequelize.define('Promotoria',{
         descripcion: {
             type: DataTypes.STRING(300),
             allowNull: true
+        },
+        id_empresa: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: Empresa,
+                key: 'id_empresa'
+            }
         }
     },{
         tableName: 'promotoria',
