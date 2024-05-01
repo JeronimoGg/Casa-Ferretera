@@ -4,6 +4,7 @@ const cors = require('cors');
 const sequelize = require('./db');
 const authRoutes = require('./routes/auth.routes');
 const promotoriaRoutes = require('./routes/promotorias.routes');
+const usersRoutes = require('./routes/users.routes');
 const { insertarEstadosSiNoExisten } = require('./libs/initialSetup');
 
 const app = express();
@@ -25,5 +26,6 @@ app.use(cors());
 //definicion de las rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/promotoria', promotoriaRoutes);
+app.use('/api/users', usersRoutes);
 
 module.exports = app;
