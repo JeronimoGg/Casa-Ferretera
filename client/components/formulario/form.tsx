@@ -41,23 +41,39 @@ const formSchema = z.object({
     .string()
     .email("Este campo debe ser un email")
     .nonempty("Este campo es requerido"),
-  sede: z.enum(["asd", "bsd", "csd", "fsx"]),
+  sede: z.enum(["amador", "america", "palace", "centro", "itagui", "envigado", "rionegro", "la-ceja", "apartado"]),
   date: z.date(),
-  hora: z.enum([
-    "7:00 a.m. - 8:00 a.m.",
-    "8:00 a.m. - 9:00 a.m.",
-    "9:00 a.m. - 10:00 a.m.",
-    "10:00 a.m. - 11:00 a.m.",
-    "11:00 a.m. - 12:00 p.m.",
-    "12:00 p.m. - 1:00 p.m.",
-    "1:00 p.m. - 2:00 p.m.",
-    "2:00 p.m. - 3:00 p.m.",
-    "3:00 p.m. - 4:00 p.m.",
-    "4:00 p.m. - 5:00 p.m.",
-    "5:00 p.m. - 6:00 p.m.",
-    "6:00 p.m. - 7:00 p.m.",
-    "7:00 p.m. - 8:00 p.m.",
-    "8:00 p.m. - 9:00 p.m.",
+  horaInicio: z.enum([
+    "7:00 a.m",
+    "8:00 a.m",
+    "9:00 a.m",
+    "10:00 a.m",
+    "11:00 a.m",
+    "12:00 p.m",
+    "1:00 p.m",
+    "2:00 p.m",
+    "3:00 p.m",
+    "4:00 p.m",
+    "5:00 p.m",
+    "6:00 p.m",
+    "7:00 p.m",
+    "8:00 p.m",
+  ]),
+  horaFinal: z.enum([
+    "7:00 a.m",
+    "8:00 a.m",
+    "9:00 a.m",
+    "10:00 a.m",
+    "11:00 a.m",
+    "12:00 p.m",
+    "1:00 p.m",
+    "2:00 p.m",
+    "3:00 p.m",
+    "4:00 p.m",
+    "5:00 p.m",
+    "6:00 p.m",
+    "7:00 p.m",
+    "8:00 p.m",
   ]),
   descripcion: z.string().nonempty("Este campo es requerido"),
 });
@@ -66,7 +82,7 @@ export default function ProfileForm() {
   const onSubmit = () => {};
 
   const today = new Date();
-  const twoDaysAfter = new Date(today.setDate(today.getDate() + 2));
+  const twoDaysAfter = new Date(today.setDate(today.getDate()));
 
   const FormularioProv = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -83,72 +99,18 @@ export default function ProfileForm() {
           className="max-w-md w-full flex flex-col gap-4">
           <FormField
             control={FormularioProv.control}
-            name="enterprise"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Empresa</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Inserta el nombre de tu empresa"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Esta es tu empresa o nombre de tu negocio.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={FormularioProv.control}
             name="nombre"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nombre del Promotor</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Itroduzca el nombre completo"
+                    placeholder="Itroduzca el nombre completo del promotor"
                     {...field}
                   />
                 </FormControl>
                 <FormDescription>
-                  Aqui escribes tu nombre completo
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={FormularioProv.control}
-            name="documento"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Documento de Identidad</FormLabel>
-                <FormControl>
-                  <Input placeholder="C.C." {...field} />
-                </FormControl>
-                <FormDescription>
-                  Este es tu documento de identidad
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={FormularioProv.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Introduzca una direccion de correo electronico valido"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Esta es tu empresa o nombre de tu negocio.
+                  Escribe el nombre completo del promotor
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -159,7 +121,7 @@ export default function ProfileForm() {
             name="sede"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Sedes</FormLabel>
+                <FormLabel>Sedes disponibles</FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
@@ -167,10 +129,15 @@ export default function ProfileForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="asd">Asd</SelectItem>
-                    <SelectItem value="bsd">Bsd</SelectItem>
-                    <SelectItem value="csd">Csd</SelectItem>
-                    <SelectItem value="fsx">Fsx</SelectItem>
+                    <SelectItem value="amador">Amador</SelectItem>
+                    <SelectItem value="america">America</SelectItem>
+                    <SelectItem value="palace">Palace</SelectItem>
+                    <SelectItem value="centro">Centro</SelectItem>
+                    <SelectItem value="itagui">Itagui</SelectItem>
+                    <SelectItem value="envigado">Envigado</SelectItem>
+                    <SelectItem value="rionegro">Rionegro</SelectItem>
+                    <SelectItem value="la-ceja">La Ceja</SelectItem>
+                    <SelectItem value="apartado">Apartado</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -182,7 +149,7 @@ export default function ProfileForm() {
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Date of birth</FormLabel>
+                <FormLabel>Fecha para la promotoria</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -214,7 +181,7 @@ export default function ProfileForm() {
                   </PopoverContent>
                 </Popover>
                 <FormDescription>
-                  Your date of birth is used to calculate your age.
+                  Escoja la fecha en la que quiere realizar su promotoria.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -222,38 +189,66 @@ export default function ProfileForm() {
           />
           <FormField
             control={FormularioProv.control}
-            name="hora"
+            name="horaInicio"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Hora</FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="8:00 a.m. - 10:00a.m." />
+                      <SelectValue placeholder="7:00 a.m" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="7:00 a.m. - 8:00 a.m.">
-                      7:00 a.m. - 8:00 a.m.
-                    </SelectItem>
-                    <SelectItem value="8:00 a.m. - 9:00 a.m.">
-                      8:00 a.m. - 9:00 a.m.
-                    </SelectItem>
-                    <SelectItem value="9:00 a.m. - 10:00 a.m.">
-                      9:00 a.m. - 10:00 a.m.
-                    </SelectItem>
-                    <SelectItem value="10:00 a.m. - 11:00 a.m.">
-                      10:00 a.m. - 11:00 a.m.
-                    </SelectItem>
-                    <SelectItem value="11:00 a.m. - 12:00 p.m.">
-                      11:00 a.m. - 12:00 p.m.
-                    </SelectItem>
-                    <SelectItem value="12:00 p.m. - 1:00 p.m.">
-                      12:00 p.m. - 1:00 p.m.
-                    </SelectItem>
-                    <SelectItem value="1:00 p.m. - 2:00 p.m.">
-                      1:00 p.m. - 2:00 p.m.
-                    </SelectItem>
+                    <SelectItem value="7:00 a.m">7:00 a.m</SelectItem>
+                    <SelectItem value="8:00 a.m">8:00 a.m</SelectItem>
+                    <SelectItem value="9:00 a.m">9:00 a.m</SelectItem>
+                    <SelectItem value="10:00 a.m">10:00 a.m</SelectItem>
+                    <SelectItem value="11:00 a.m">11:00 a.m</SelectItem>
+                    <SelectItem value="12:00 a.m">12:00 a.m</SelectItem>
+                    <SelectItem value="1:00 pm">1:00 pm</SelectItem>
+                    <SelectItem value="2:00 pm">2:00 pm</SelectItem>
+                    <SelectItem value="3:00 pm">3:00 pm</SelectItem>
+                    <SelectItem value="4:00 pm">4:00 pm</SelectItem>
+                    <SelectItem value="5:00 pm">5:00 pm</SelectItem>
+                    <SelectItem value="6:00 pm">6:00 pm</SelectItem>
+                    <SelectItem value="7:00 pm">7:00 pm</SelectItem>
+                    <SelectItem value="8:00 pm">8:00 pm</SelectItem>
+                    <SelectItem value="9:00 pm">9:00 pm</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={FormularioProv.control}
+            name="horaInicio"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Hora</FormLabel>
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="3:00 p.m" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="7:00 a.m">7:00 a.m</SelectItem>
+                    <SelectItem value="8:00 a.m">8:00 a.m</SelectItem>
+                    <SelectItem value="9:00 a.m">9:00 a.m</SelectItem>
+                    <SelectItem value="10:00 a.m">10:00 a.m</SelectItem>
+                    <SelectItem value="11:00 a.m">11:00 a.m</SelectItem>
+                    <SelectItem value="12:00 a.m">12:00 a.m</SelectItem>
+                    <SelectItem value="1:00 pm">1:00 pm</SelectItem>
+                    <SelectItem value="2:00 pm">2:00 pm</SelectItem>
+                    <SelectItem value="3:00 pm">3:00 pm</SelectItem>
+                    <SelectItem value="4:00 pm">4:00 pm</SelectItem>
+                    <SelectItem value="5:00 pm">5:00 pm</SelectItem>
+                    <SelectItem value="6:00 pm">6:00 pm</SelectItem>
+                    <SelectItem value="7:00 pm">7:00 pm</SelectItem>
+                    <SelectItem value="8:00 pm">8:00 pm</SelectItem>
+                    <SelectItem value="9:00 pm">9:00 pm</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
