@@ -6,14 +6,14 @@ import Image from 'next/image';
 import editIcon from '@/public/edit-button.svg';
 import trashCan from '@/public/trash-can.svg';
 
-const managePromotores = () => {
-    const titulo = "Lista promotores";
+const manageSupervisores = () => {
+    const titulo = "Lista supervisores";
     const [data, setData] = useState<any[]>([]);
 
-    const getPromotores = async () => {
+    const getSupervisores = async () => {
         try {
             const token = localStorage.getItem('session');
-            const response = await fetch("/api/usuarios/promotores", {
+            const response = await fetch("/api/usuarios/supervisores", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -25,16 +25,16 @@ const managePromotores = () => {
                 console.log(error);
                 return;
             }
-            const { promotores } = await response.json();
+            const { supervisores } = await response.json();
             if(data.length === 0){
-                setData(promotores);
+                setData(supervisores);
               } 
         } catch (error) {
             console.log(error);
         }
     }
     useEffect(() => {
-        getPromotores();
+        getSupervisores();
     }, []);
 
     
@@ -48,7 +48,7 @@ const managePromotores = () => {
                             <th scope="col" className="px-6 py-3 w-1/7"> ID </th>
                             <th scope="col" className="px-6 py-3 w-1/7"> Nombre </th>
                             <th scope="col" className="px-6 py-3 w-1/7"> Correo </th>
-                            <th scope="col" className="px-6 py-3 w-1/7"> Calificacion </th>
+                            <th scope="col" className="px-6 py-3 w-1/7"> Sede </th>
                             <th scope="col" className="px-6 py-3 w-1/7"> Editar </th>
                             <th scope="col" className="px-6 py-3 w-1/7"> Eliminar </th>
                         </tr>
@@ -56,10 +56,10 @@ const managePromotores = () => {
                     <tbody>
                         {data.map((usuario, index) => (
                             <tr key={usuario.id_promotor} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900">{usuario.id_promotor}</th>
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900">{usuario.id_supervisor}</th>
                                 <td className="px-6 py-4 text-gray-800">{usuario.nombre}</td>
                                 <td className="px-6 py-4 text-gray-800">{usuario.correo}</td>
-                                <td className="px-6 py-4 text-gray-800">{usuario.calificacion}</td>
+                                <td className="px-6 py-4 text-gray-800">{usuario.sede}</td>
                                 <td className="px-6 py-4 text-gray-800">
                                     <div className="flex justify-center">
                                         <Link href="#">
@@ -84,4 +84,4 @@ const managePromotores = () => {
     
 }
 
-export default managePromotores;
+export default manageSupervisores;

@@ -71,6 +71,9 @@ const signupSupervisorByAuxMercadeo = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(contrasena, 10);
     const sede = await Sede.findOne({ where: { nombre: nombreSede }});
+    if(!sede) {
+        return res.status(400).json({ message: 'La sede no existe' });
+    }
     const newUserSupervisor = new Supervisor({
         id_sede: sede.id_sede,
         correo,
