@@ -5,7 +5,8 @@ const userController = require('../controller/users.controller')
 const router = new Router();
 
 //Crud para el rol de promotor
-router.get('/promotor', verifyToken, isAuxMercadeo, userController.getPromotor);
+router.get('/promotor', verifyToken, isAuxMercadeo, userController.getPromotores);
+router.get('/promotor/:id', verifyToken, isAuxMercadeo, userController.getPromotor);
 router.delete('/promotor/:id', verifyToken, isAuxMercadeo, userController.deletePromotor);
 router.put('/promotor/:id', verifyToken, isAuxMercadeo, userController.updatePromotor);
 

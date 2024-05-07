@@ -6,11 +6,22 @@ const Empresa = require('../models/Empresa');
 const Sede = require('../models/Sede');
 const { Sequelize } = require('sequelize');
 
-const getPromotor = async (req, res) => {
+const getPromotores = async (req, res) => {
     const promotores = await Promotor.findAll({
         attributes: ['id_promotor', 'correo', 'nombre', 'calificacion']
     });
     res.status(200).json(promotores);
+}
+
+const getPromotor = async (req, res) => {
+    const { id } = req.params;
+    const promotor = await Promotor.findByPk(id, {
+        attributes: ['id_promotor', 'correo', 'nombre', 'calificacion']
+    });
+    if(!promotor) {
+        return res.status(400).json({ error: 'No se encontro el promotor' });
+    }
+    res.status(200).json(promotor);
 }
 
 const getProveedor = async (req, res) => {
@@ -173,6 +184,7 @@ const updateSupervisor = async (req, res) => {
     }
 }
 module.exports = {
+    getPromotores,
     getPromotor,
     getProveedor,
     getSupervisor,
