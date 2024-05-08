@@ -24,7 +24,7 @@ const getPromotor = async (req, res) => {
     res.status(200).json(promotor);
 }
 
-const getProveedor = async (req, res) => {
+const getProveedores = async (req, res) => {
     const proveedores = await Proveedor.findAll({
         attributes: ['id_proveedor', 'correo', 'nombre', 'id_empresa'],
     });
@@ -45,7 +45,28 @@ const getProveedor = async (req, res) => {
     res.status(200).json(proveedoresConNombreEmpresa);
 }
 
-const getSupervisor = async (req, res) => {
+const getProveedor = async (req, res) => {
+    const { id } = req.params;
+    const proveedor = await Proveedor.findByPk(id, {
+        attributes: ['id_proveedor', 'correo', 'nombre', 'id_empresa']
+    });
+    if(!proveedor) {
+        return res.status(400).json({ error: 'No se encontro el proveedor' });
+    }
+    const nombreEmpresa = await Empresa.findOne({
+        where: { id_empresa: proveedor.id_empresa },
+        attributes: ['nombre']
+    });
+    const proveedorActualizado = {
+        id_proveedor: proveedor.id_proveedor,
+        correo: proveedor.correo,
+        nombre: proveedor.nombre,
+        empresa: nombreEmpresa.nombre 
+    }
+    res.status(200).json(proveedorActualizado);
+}
+
+const getSupervisores = async (req, res) => {
     const supervisores = await Supervisor.findAll({
         attributes: ['id_supervisor', 'correo', 'nombre', 'id_sede'],
     });
@@ -64,6 +85,30 @@ const getSupervisor = async (req, res) => {
     }));
 
     res.status(200).json(supervisoresConNombreSede);
+}
+
+const getSupervisor = async (req, res) => {
+    const { id } = req.params;
+    const supervisor = await Supervisor.findByPk(id, {
+        attributes: ['id_supervisor', 'correo', 'nombre', 'id_sede']
+    });
+    if(!supervisor) {
+        return res.status(400).json({ error: 'No se encontro el supervisor' });
+    }
+    const nombreSede = await Sede.findOne({
+        where: { id_sede: supervisor.id_supervisor },
+        attributes: ['nombre']
+    });
+    if(!nombreSede) {
+        return res.status(400).json({ error: 'Esa sede no existe' });
+    }
+    const supervisorActualizado = {
+        id_supervisor: supervisor.id_supervisor,
+        correo: supervisor.correo,
+        nombre: supervisor.nombre,
+        empresa: nombreSede.nombre 
+    }
+    res.status(200).json(supervisorActualizado);
 }
 
 const deletePromotor = async (req, res) => {
@@ -148,9 +193,12 @@ const updateProveedor = async (req, res) => {
     try {
         const { id } = req.params;
         const { correo, nombre, nombreEmpresa } = req.body;
-        const sede = await Sede.findOne( {where: { nombre: nombreEmpresa }});
+        const empresa = await Empresa.findOne( { where: { nombre: nombreEmpresa }});
+        if(!empresa){
+            return res.status(400).json({ message: 'No se encontro la empresa' });
+        }
         const proveedor = await Proveedor.update(
-            { correo, nombre, id_sede: sede.id_sede },
+            { correo, nombre, id_empresa: empresa.id_empresa },
             {
                 where: { id_proveedor: id }
             }
@@ -169,15 +217,17 @@ const updateProveedor = async (req, res) => {
 const updateSupervisor = async (req, res) => {
     try {
         const { id } = req.params;
-        const { correo, nombre, nombreEmpresa } = req.body;
-        const empresa = await Empresa.findOne( { where: { nombre: nombreEmpresa }});
+        const { correo, nombre, nombreSede } = req.body;
+        const sede = await Sede.findOne( { where: { nombre: nombreSede }});
         const supervisor = await Supervisor.update(
-            { correo, nombre, id_empresa: empresa.id_empresa },
+            { correo, nombre, id_sede: sede.id_sede },
             {
                 where: { id_supervisor: id }
             }
         );
-
+        if(!supervisor){
+            return res.status(400).json({ message: 'No se encontro el supervisor' });
+        }
         return res.status(200).json({ message: 'actualizado correctamente' });
     } catch (error) {
         return res.status(500).json({error: error.message})
@@ -186,7 +236,9 @@ const updateSupervisor = async (req, res) => {
 module.exports = {
     getPromotores,
     getPromotor,
+    getProveedores,
     getProveedor,
+    getSupervisores,
     getSupervisor,
     deletePromotor,
     deleteProveedor,

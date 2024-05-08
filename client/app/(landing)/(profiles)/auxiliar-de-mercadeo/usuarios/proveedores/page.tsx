@@ -62,7 +62,7 @@ const manageProveedores = () => {
                                 <td className="px-6 py-4 text-gray-800">{usuario.empresa}</td>
                                 <td className="px-6 py-4 text-gray-800">
                                     <div className="flex justify-center">
-                                        <Link href="#">
+                                        <Link href={`/auxiliar-de-mercadeo/usuarios/promotores/${usuario.id_proveedor}`}>
                                             <Image src={editIcon} alt="boton editar" width={25} height={25} />
                                         </Link>
                                     </div>    

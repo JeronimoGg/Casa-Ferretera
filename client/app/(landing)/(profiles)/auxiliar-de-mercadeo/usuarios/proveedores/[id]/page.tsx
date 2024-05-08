@@ -1,14 +1,14 @@
 "use client";
 import LayoutProfile from "@/app/(landing)/layout";
-import FormularioProv from "@/components/formulario/editarPromotor";
+import FormularioProv from "@/components/formulario/editarProveedor";
 import { useEffect, useState } from "react";
 
 
-const editarPromotor = ({ params }: 
+const editarProveedor = ({ params }: 
     { params: { id: number } 
 }) => {
     const [data, setData] = useState<any>({});
-    const titulo = "Editar promotor";
+    const titulo = "Editar proveedor";
     const getInfoPromotor = async (id: number) => {
         try {
             const token = localStorage.getItem('session');
@@ -42,15 +42,15 @@ const editarPromotor = ({ params }:
     const initialValues = {
         nombre: data.nombre,
         correo: data.correo,
-        calificacion: data.calificacion
+        empresa: data.empresa
     }
     
     return(
         <LayoutProfile titulo={titulo}> 
             <h1 className="text-center pt-5 font-bold text-3xl">Esta editando La informacion del promotor { initialValues.nombre }</h1>
-            {Object.keys(data).length > 0 && <FormularioProv initialValues={initialValues} id={data.id_promotor} />}
+            {Object.keys(data).length > 0 && <FormularioProv initialValues={initialValues} id={data.id_proveedor} />}
         </LayoutProfile>
     )
 }
 
-export default editarPromotor;
+export default editarProveedor;
