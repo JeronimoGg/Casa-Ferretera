@@ -2,6 +2,7 @@
 import LayoutProfile from "@/app/(landing)/layout";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import editIcon from '@/public/edit-button.svg';
 import trashCan from '@/public/trash-can.svg';
@@ -9,6 +10,8 @@ import trashCan from '@/public/trash-can.svg';
 const manageSupervisores = () => {
     const titulo = "Lista supervisores";
     const [data, setData] = useState<any[]>([]);
+    const [error, setError] = useState<string | undefined>(undefined);
+    const [rol, setRol] = useState<string | undefined>(undefined);
 
     const getSupervisores = async () => {
         try {
@@ -21,8 +24,9 @@ const manageSupervisores = () => {
                 }
             });
             if (!response.ok) {
-                const { error } = await response.json();
-                console.log(error);
+                const respuesta = await response.json();
+                setError(respuesta.message);
+                setRol(respuesta.rol.toLowerCase());
                 return;
             }
             const { supervisores } = await response.json();
@@ -37,6 +41,21 @@ const manageSupervisores = () => {
         getSupervisores();
     }, []);
 
+    if (error) {
+        return(
+            <LayoutProfile titulo={titulo}>
+                <div className="flex flex-col items-center justify-center mt-80">
+                        <h1 className="text-5xl font-bold text-gray-700 dark:text-gray-200">Error</h1>
+                        <p className="text-gray-700 text-xl dark:text-gray-200 pb-12 pt-6">{error}</p>
+                        <Button >
+                            <Link href={`/${rol}`}>
+                                {`Volver al portal ${rol}`}
+                            </Link>
+                        </Button>
+                    </div>
+            </LayoutProfile>
+        )
+    }
     
 
     return(

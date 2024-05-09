@@ -6,6 +6,9 @@ const Empresa = require('../models/Empresa');
 const { Op } = require("sequelize");
 const Sede = require('../models/Sede');
 const Supervisor = require('../models/Supervisor');
+const { addDays } = require('date-fns');
+const { format } = require('date-fns-tz');
+
 
 const agendarPromotoriaProveedor = async (req, res) => {
     const { nombrePromotor, nombreSede, fecha, horaInicio, horaFinal, descripcion } = req.body;
@@ -64,10 +67,12 @@ const agendarPromotoriaProveedor = async (req, res) => {
 const promotoriasActivasProveedor = async (req, res) => {
     const correo = req.correo;
     const proveedor = await Proveedor.findOne({ where: { correo: correo } });
-
-    const tomorrow = new Date();
+    const tomorrow = addDays(new Date(), 1);
+    const colombiaTimezone = 'America/Bogota';
+    const tomorrowFixed = format(tomorrow, 'yyyy-MM-dd', { timeZone: colombiaTimezone });
+    /* const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    const tomorrowFixed = tomorrow.toISOString().slice(0, 10);
+    const tomorrowFixed = tomorrow.toISOString().slice(0, 10); */
     const promotorias = await Promotoria.findAll({
         where: { 
             fecha: { [Op.gte]: tomorrowFixed },

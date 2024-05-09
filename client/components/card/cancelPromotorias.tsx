@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { CancelarAlerta } from "../alertas/cancelar";
 
 export const CancelPromotorias   = ({ numero, nombreEmpresa, nombreProveedor,  sede, fecha, hora, descripcion, link}: {
     numero: string;
@@ -20,6 +21,11 @@ export const CancelPromotorias   = ({ numero, nombreEmpresa, nombreProveedor,  s
     descripcion: string;
     link: string;
 }) => {     
+    const handleClick = async () => {
+        console.log(numero);
+    }
+
+
     return(
         <Card className="w-[400px] m-7">
            
@@ -37,9 +43,10 @@ export const CancelPromotorias   = ({ numero, nombreEmpresa, nombreProveedor,  s
                 </CardDescription>
             </CardHeader>
             <CardFooter className="flex flex-col items-center">
-                <Button className="bg-red-500 hover:bg-red-600" variant="secondary">
-                    <Link className="text-white" href={link}>Cancelar</Link>
-                </Button>
+                {/* <Button className="bg-red-500 hover:bg-red-600" variant="secondary">
+                    <Link onClick={handleClick} className="text-white" href={link}>Cancelar</Link>
+                </Button> */}
+                <CancelarAlerta numero={numero}/>
             </CardFooter>
         </Card>
     )
