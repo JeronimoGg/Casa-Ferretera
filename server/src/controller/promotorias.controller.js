@@ -207,6 +207,22 @@ const agendarPromotoriaPromotor = async (req, res) => {
 
 }
 
+const promotoriasActivasPromotor = async(req, res) => {
+    const correo = req.correo;
+    const promotor = await Promotor.findOne({ where: { correo: correo } });
+    const fecha = new Date();
+    const colombiaTimezone = 'America/Bogota';
+    const fechaFixed = format(fecha, 'yyyy-MM-dd', { timeZone: colombiaTimezone });
+
+    const promotoriasActivas = await Promotoria.findAll({
+        where: {
+            fecha: fechaFixed,
+            id_promotor: promotor.id_promotor,
+            id_estado: 1
+        }
+    })
+}
+
 const agregarDescripcion = async(req, res) => {
     const { id } = req.params;
     const { descripcion } = req.body;
@@ -240,5 +256,6 @@ module.exports = {
     cancelarPromotoria,
     promotoriasPendientes,
     agendarPromotoriaPromotor,
-    agregarDescripcion
+    agregarDescripcion,
+    promotoriasActivasPromotor
 }
