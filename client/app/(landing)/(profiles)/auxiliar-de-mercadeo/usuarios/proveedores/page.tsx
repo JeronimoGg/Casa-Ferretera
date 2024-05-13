@@ -2,6 +2,7 @@
 import LayoutProfile from "@/app/(landing)/layout";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import editIcon from '@/public/edit-button.svg';
 import trashCan from '@/public/trash-can.svg';
@@ -9,6 +10,8 @@ import trashCan from '@/public/trash-can.svg';
 const manageProveedores = () => {
     const titulo = "Lista proveedores";
     const [data, setData] = useState<any[]>([]);
+    const [error, setError] = useState<string | undefined>(undefined);
+    const [rol, setRol] = useState<string | undefined>(undefined);
 
     const getProveedores = async () => {
         try {
@@ -21,8 +24,9 @@ const manageProveedores = () => {
                 }
             });
             if (!response.ok) {
-                const { error } = await response.json();
-                console.log(error);
+                const respuesta = await response.json();
+                setError(respuesta.message);
+                setRol(respuesta.rol.toLowerCase());
                 return;
             }
             const { proveedores } = await response.json();
@@ -37,6 +41,21 @@ const manageProveedores = () => {
         getProveedores();
     }, []);
 
+    if (error) {
+        return(
+            <LayoutProfile titulo={titulo}>
+                <div className="flex flex-col items-center justify-center mt-80">
+                        <h1 className="text-5xl font-bold text-gray-700 dark:text-gray-200">Error</h1>
+                        <p className="text-gray-700 text-xl dark:text-gray-200 pb-12 pt-6">{error}</p>
+                        <Button >
+                            <Link href={`/${rol}`}>
+                                {`Volver al portal ${rol}`}
+                            </Link>
+                        </Button>
+                    </div>
+            </LayoutProfile>
+        )
+    }
     
 
     return(
@@ -62,7 +81,7 @@ const manageProveedores = () => {
                                 <td className="px-6 py-4 text-gray-800">{usuario.empresa}</td>
                                 <td className="px-6 py-4 text-gray-800">
                                     <div className="flex justify-center">
-                                        <Link href="#">
+                                        <Link href={`/auxiliar-de-mercadeo/usuarios/promotores/${usuario.id_proveedor}`}>
                                             <Image src={editIcon} alt="boton editar" width={25} height={25} />
                                         </Link>
                                     </div>    

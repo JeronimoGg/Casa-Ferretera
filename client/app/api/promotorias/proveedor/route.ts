@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
         })
 
         const  promotorias  = await response.json();
-        console.log(promotorias);
 
         return NextResponse.json({
             promotorias: promotorias

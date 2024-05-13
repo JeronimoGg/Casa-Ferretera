@@ -5,14 +5,14 @@ const { buscarUsuarioPorCorreo } = require('../utils/auth.utils')
 const verifyToken = async (req, res, next) => {
     const bearerHeader = req.headers.authorization;
 
-    if(!bearerHeader) return res.status(403).json({message: "no token provided"});
+    if(!bearerHeader) return res.status(403).json({error: "no token provided"});
     const token = bearerHeader.split(' ')[1];
     try {
         const decoded = jwt.verify(token, secret);
         req.correo = decoded.correo;
         next();
       } catch (error) {
-        return res.status(401).json({ message: "Token inválido o expirado" });
+        return res.status(401).json({ error: "Token inválido o expirado" });
       }
 }
 
@@ -22,7 +22,12 @@ const isAuxMercadeo = async (req, res, next) => {
     if(usuario.tipo === 'AuxMercadeo') {
         next();
     } else {
-        return res.status(403).json({message: "No tienes permisos para realizar esta acción"});
+        return res.status(401).json({
+            error: {
+                message: `Esta pagina solo la pueden ver Auxiliares de mercadeo y tu rol es ${usuario.tipo}`,
+                rol: usuario.tipo
+            }
+        });
     }
 }
 
@@ -32,7 +37,7 @@ const isProveedor = async (req, res, next) => {
     if(usuario.tipo === 'Proveedor') {
         next();
     } else {
-        return res.status(403).json({message: "No tienes permisos para realizar esta acción"});
+        return res.status(403).json({error: "No tienes permisos para realizar esta acción"});
     }
 }
 
@@ -43,7 +48,7 @@ const isSupervisor = async (req, res, next) => {
     if(usuario.tipo === 'Supervisor') {
         next();
     } else {
-        return res.status(403).json({message: "No tienes permisos para realizar esta acción"});
+        return res.status(403).json({error: "No tienes permisos para realizar esta acción"});
     }
 }
 
@@ -53,7 +58,7 @@ const isPromotor = async (req, res, next) => {
     if(usuario.tipo === 'Promotor') {
         next();
     } else {
-        return res.status(403).json({message: "No tienes permisos para realizar esta acción"});
+        return res.status(403).json({error: "No tienes permisos para realizar esta acción"});
     }
 }
 
