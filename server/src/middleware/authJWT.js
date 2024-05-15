@@ -37,7 +37,12 @@ const isProveedor = async (req, res, next) => {
     if(usuario.tipo === 'Proveedor') {
         next();
     } else {
-        return res.status(403).json({error: "No tienes permisos para realizar esta acción"});
+        return res.status(401).json({
+            error: {
+                message: `Esta pagina solo la pueden ver Proveedores y tu rol es ${usuario.tipo}`,
+                rol: usuario.tipo
+        }
+    });
     }
 }
 
@@ -48,7 +53,12 @@ const isSupervisor = async (req, res, next) => {
     if(usuario.tipo === 'Supervisor') {
         next();
     } else {
-        return res.status(403).json({error: "No tienes permisos para realizar esta acción"});
+        return res.status(403).json({
+            error: {
+                message: `Esta pagina solo la pueden ver Supervisores y tu rol es ${usuario.tipo}`,
+                rol: usuario.tipo
+        }
+    });
     }
 }
 
@@ -58,7 +68,12 @@ const isPromotor = async (req, res, next) => {
     if(usuario.tipo === 'Promotor') {
         next();
     } else {
-        return res.status(403).json({error: "No tienes permisos para realizar esta acción"});
+        return res.status(403).json({
+            error: {
+                message: `Esta pagina solo la pueden ver Promotores y tu rol es ${usuario.tipo}`,
+                rol: usuario.tipo
+        }
+    });
     }
 }
 

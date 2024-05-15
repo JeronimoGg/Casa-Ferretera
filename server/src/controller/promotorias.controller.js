@@ -11,7 +11,7 @@ const { format } = require('date-fns-tz');
 
 
 const agendarPromotoriaProveedor = async (req, res) => {
-    const { nombrePromotor, nombreSede, fecha, horaInicio, horaFinal, descripcion } = req.body;
+    const { nombrePromotor, nombreSede, fecha, horaInicio, horaFinal } = req.body;
 
     /* let fechaFixed = new Date(fecha);
     fechaFixed.setUTCHours(0, 0, 0, 0); */
@@ -22,11 +22,11 @@ const agendarPromotoriaProveedor = async (req, res) => {
     const proveedor = await Proveedor.findOne({ where: { correo: correo } });
 
     if(!sede) {
-        return res.status(400).json({ message: 'La sede no existe' });
+        return res.status(400).json({ error: 'La sede no existe' });
     }
 
     if(horaFinal < horaInicio) {
-        return res.status(400).json({ message: 'La hora de finalización debe ser mayor a la hora de inicio' });
+        return res.status(400).json({ error: 'La hora de finalización debe ser mayor a la hora de inicio' });
     }
     const promotoriaSolapada = await Promotoria.findAll({
         where: {
@@ -45,7 +45,7 @@ const agendarPromotoriaProveedor = async (req, res) => {
     })
 
     if(promotoriaSolapada.length > 0) {
-        return res.status(400).json({ message: 'Ya existe una promotoría en ese horario' });
+        return res.status(400).json({ error: 'Ya existe una promotoría en ese horario' });
     }
 
     const newPromotoria = new Promotoria({

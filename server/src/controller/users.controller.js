@@ -13,6 +13,19 @@ const getPromotores = async (req, res) => {
     res.status(200).json(promotores);
 }
 
+const getPromotoresByProveedor = async (req, res) => {
+    const correo = req.correo;
+    const proveedor = await Proveedor.findOne({ where: { correo: correo } });
+    const promotores = await Promotor.findAll({
+        where: { id_proveedor: proveedor.id_proveedor },
+        attributes: ['nombre']
+    });
+    if(!promotores){
+        return res.status(400).json({ error: 'No tiene promotores asignados' });
+    }
+    res.status(200).json(promotores);
+}
+
 const getPromotor = async (req, res) => {
     const { id } = req.params;
     const promotor = await Promotor.findByPk(id, {
@@ -235,6 +248,7 @@ const updateSupervisor = async (req, res) => {
 }
 module.exports = {
     getPromotores,
+    getPromotoresByProveedor,
     getPromotor,
     getProveedores,
     getProveedor,

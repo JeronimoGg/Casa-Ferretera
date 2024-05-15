@@ -11,7 +11,7 @@ const AuxiliarDeMercadeoPage = () => {
     const getPromotorias = async () => {
       try {
         const token = localStorage.getItem('session');
-        const response = await fetch('/api/promotorias/proveedor',{
+        const response = await fetch('/api/promotorias/cancelar-proveedor',{
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
