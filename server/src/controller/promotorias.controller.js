@@ -39,7 +39,9 @@ const agendarPromotoriaProveedor = async (req, res) => {
                 {
                     horaFinal: { [Op.between]: [horaInicio, horaFinal] }
                 }
-            ]
+            ],
+            id_estado: 1,
+            
             
         }
     })

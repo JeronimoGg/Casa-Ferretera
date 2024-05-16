@@ -43,7 +43,7 @@ const FormSchema = z.object({
         required_error: "Por favor seleccione una sede",
       }),
     date: z.date({
-        required_error: "A date of birth is required.",
+        required_error: "Seleccione una fecha",
       }),
       horaInicio: z.string({
         required_error: "Por favor seleccione una hora",
