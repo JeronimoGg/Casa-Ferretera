@@ -18,6 +18,8 @@ router.put('/rechazar/:id', verifyToken, isSupervisor, promotoriaController.canc
 
 //Rutas para el rol de promotor
 router.post('/agendar', verifyToken, isPromotor, promotoriaController.agendarPromotoriaPromotor);
+router.get('/revisar', verifyToken, isPromotor, promotoriaController.promotoriasActivasPromotor);
+router.get('/descripcion', verifyToken, isPromotor, promotoriaController.promotoriasSinDescripcion);
 router.put('/agregarDescripcion/:id', verifyToken, isPromotor, promotoriaController.agregarDescripcion);
 
 

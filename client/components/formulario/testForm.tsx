@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/popover";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   Select,
@@ -56,6 +57,7 @@ const FormSchema = z.object({
 
 
 export default function FormularioAgendar({ nombres } : { nombres: Array<string> }) {
+    const router = useRouter();
     const [error, setError] = useState<string | undefined>(undefined);
     const today = new Date();
     const twoDaysAfter = new Date(today.setDate(today.getDate()));
@@ -85,6 +87,7 @@ export default function FormularioAgendar({ nombres } : { nombres: Array<string>
           }  
           const { message } = await response.json();
           console.log(message);
+          router.push('/proveedor');  
         } catch (error) {
           
           console.log(error);

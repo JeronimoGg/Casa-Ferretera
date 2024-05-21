@@ -1,15 +1,17 @@
 "use client";
 import LayoutProfile from "@/app/(landing)/layout";
 import { useState, useEffect } from "react";
-import { InfoPromotoria } from "@/components/card/infoPromotoria";
+import { DescripcionPromotoria } from "@/components/card/descripcionPromotorias";
 
-const PromotoriasActivas = () => {
-    const titulo = 'Promotorias activas';
+const PromotoriasSinDescripcion = () => {
+    const titulo = 'Portal Promotor';
     const [data, setData] = useState<any[]>([]);
-    const getPromotorias = async () => {
+    const [error, setError] = useState<string | undefined>(undefined);
+    const [rol, setRol] = useState<string | undefined>(undefined);
+    const getPromotoriasSinDescripcion = async () => {
         const token = localStorage.getItem('session');
         try {
-            const response = await fetch('/api/promotorias/promotor',{
+            const response = await fetch('/api/promotorias/sin-descripcion',{
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',
@@ -21,26 +23,34 @@ const PromotoriasActivas = () => {
                 console.log(error);
                 return;
             }
+            if(response.status === 204){
+                console.log('no hay promotorias sin descripcion');
+                return
+            }
             const { promotorias } = await response.json();
-            console.log(promotorias);
-            if(data.length === 0){
+            
+            if (promotorias.length === 0) {
+                console.log('No hay promotorias sin descripción');
+            } else {
                 setData(promotorias);
-              }
+            }
         } catch (error) {
             console.log(error);
         }
     }
     useEffect(() => {
-        getPromotorias();
+        getPromotoriasSinDescripcion();
     }, []);
+    
+    
     return(
         <LayoutProfile titulo={titulo}>
             <div>
-                <h2 className="text-center text-5xl font-bold mt-9">Estan son tus promotorias programadas</h2>          
+                <h2 className="text-center text-5xl font-bold mt-9">Promotorias sin descripcion</h2>          
             </div>
             <div className="flex flex-row justify-center mt-16">
                 {data.map((item) => (
-                    <InfoPromotoria 
+                    <DescripcionPromotoria 
                         key={item.id_promotoria}
                         numero={item.id_promotoria}
                         nombreEmpresa={item.nombre_empresa}
@@ -48,6 +58,7 @@ const PromotoriasActivas = () => {
                         sede={item.nombre_sede}
                         fecha={item.fecha}
                         hora={`${item.horaInicio}-${item.horaFinal}`}
+                        link={`/promotor/descripcion/${item.id_promotoria}`}
                     />
                 ))}
             </div>
@@ -55,4 +66,4 @@ const PromotoriasActivas = () => {
     )
 }
 
-export default PromotoriasActivas;
+export default PromotoriasSinDescripcion;
