@@ -15,9 +15,12 @@ router.get('/', verifyToken, isAuxMercadeo, promotoriaController.promotoriasActi
 //Rutas para el rol de supervisor
 router.get('/rechazar', verifyToken, isSupervisor, promotoriaController.promotoriasPendientes);
 router.put('/rechazar/:id', verifyToken, isSupervisor, promotoriaController.cancelarPromotoria);
+router.post('/calificar', verifyToken, isSupervisor, promotoriaController.calificarPromotor);
 
 //Rutas para el rol de promotor
 router.post('/agendar', verifyToken, isPromotor, promotoriaController.agendarPromotoriaPromotor);
+router.get('/revisar', verifyToken, isPromotor, promotoriaController.promotoriasActivasPromotor);
+router.get('/descripcion', verifyToken, isPromotor, promotoriaController.promotoriasSinDescripcion);
 router.put('/agregarDescripcion/:id', verifyToken, isPromotor, promotoriaController.agregarDescripcion);
 
 

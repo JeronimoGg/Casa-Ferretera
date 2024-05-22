@@ -34,62 +34,34 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  enterprise: z.string().nonempty("Este campo es requerido"),
   nombre: z.string().nonempty("Este campo es requerido"),
-  documento: z.number().min(10, "Este campo debe tener al menos 10 caracteres"),
-  email: z
-    .string()
-    .email("Este campo debe ser un email")
-    .nonempty("Este campo es requerido"),
-  sede: z.enum(["amador", "america", "palace", "centro", "itagui", "envigado", "rionegro", "la-ceja", "apartado"]),
+  sede: z.string({
+    required_error: "Por favor seleccione una sede",
+  }),
   date: z.date(),
-  horaInicio: z.enum([
-    "7:00 a.m",
-    "8:00 a.m",
-    "9:00 a.m",
-    "10:00 a.m",
-    "11:00 a.m",
-    "12:00 p.m",
-    "1:00 p.m",
-    "2:00 p.m",
-    "3:00 p.m",
-    "4:00 p.m",
-    "5:00 p.m",
-    "6:00 p.m",
-    "7:00 p.m",
-    "8:00 p.m",
-  ]),
-  horaFinal: z.enum([
-    "7:00 a.m",
-    "8:00 a.m",
-    "9:00 a.m",
-    "10:00 a.m",
-    "11:00 a.m",
-    "12:00 p.m",
-    "1:00 p.m",
-    "2:00 p.m",
-    "3:00 p.m",
-    "4:00 p.m",
-    "5:00 p.m",
-    "6:00 p.m",
-    "7:00 p.m",
-    "8:00 p.m",
-  ]),
+  horaInicio: z.string({
+    required_error: "Por favor seleccione una hora",
+  }),
+  horaFinal: z.string({
+    required_error: "Por favor seleccione una hora",
+  }),
   descripcion: z.string().nonempty("Este campo es requerido"),
 });
 
+
+
 export default function ProfileForm() {
-  const onSubmit = () => {};
 
   const today = new Date();
   const twoDaysAfter = new Date(today.setDate(today.getDate()));
 
   const FormularioProv = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      enterprise: "",
-    },
   });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(JSON.stringify(values));
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -105,7 +77,7 @@ export default function ProfileForm() {
                 <FormLabel>Nombre del Promotor</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Itroduzca el nombre completo del promotor"
+                    placeholder="Introduzca el nombre completo del promotor"
                     {...field}
                   />
                 </FormControl>
@@ -136,7 +108,7 @@ export default function ProfileForm() {
                     <SelectItem value="itagui">Itagui</SelectItem>
                     <SelectItem value="envigado">Envigado</SelectItem>
                     <SelectItem value="rionegro">Rionegro</SelectItem>
-                    <SelectItem value="la-ceja">La Ceja</SelectItem>
+                    <SelectItem value="la ceja">La Ceja</SelectItem>
                     <SelectItem value="apartado">Apartado</SelectItem>
                   </SelectContent>
                 </Select>
@@ -192,29 +164,25 @@ export default function ProfileForm() {
             name="horaInicio"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Hora</FormLabel>
+                <FormLabel>Hora Inicio</FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="7:00 a.m" />
+                      <SelectValue placeholder="Seleccione una hora" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="7:00 a.m">7:00 a.m</SelectItem>
-                    <SelectItem value="8:00 a.m">8:00 a.m</SelectItem>
-                    <SelectItem value="9:00 a.m">9:00 a.m</SelectItem>
-                    <SelectItem value="10:00 a.m">10:00 a.m</SelectItem>
-                    <SelectItem value="11:00 a.m">11:00 a.m</SelectItem>
-                    <SelectItem value="12:00 a.m">12:00 a.m</SelectItem>
-                    <SelectItem value="1:00 pm">1:00 pm</SelectItem>
-                    <SelectItem value="2:00 pm">2:00 pm</SelectItem>
-                    <SelectItem value="3:00 pm">3:00 pm</SelectItem>
-                    <SelectItem value="4:00 pm">4:00 pm</SelectItem>
-                    <SelectItem value="5:00 pm">5:00 pm</SelectItem>
-                    <SelectItem value="6:00 pm">6:00 pm</SelectItem>
-                    <SelectItem value="7:00 pm">7:00 pm</SelectItem>
-                    <SelectItem value="8:00 pm">8:00 pm</SelectItem>
-                    <SelectItem value="9:00 pm">9:00 pm</SelectItem>
+                    <SelectItem value="07:00:00">7:00 a.m</SelectItem>
+                    <SelectItem value="08:00:00">8:00 a.m</SelectItem>
+                    <SelectItem value="09:00:00">9:00 a.m</SelectItem>
+                    <SelectItem value="10:00:00">10:00 a.m</SelectItem>
+                    <SelectItem value="11:00:00">11:00 a.m</SelectItem>
+                    <SelectItem value="12:00:00">12:00 a.m</SelectItem>
+                    <SelectItem value="13:00:00">1:00 pm</SelectItem>
+                    <SelectItem value="14:00:00">2:00 pm</SelectItem>
+                    <SelectItem value="15:00:00">3:00 pm</SelectItem>
+                    <SelectItem value="16:00:00">4:00 pm</SelectItem>
+                    <SelectItem value="17:00:00">5:00 pm</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -226,29 +194,25 @@ export default function ProfileForm() {
             name="horaInicio"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Hora</FormLabel>
+                <FormLabel>Hora Final</FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="3:00 p.m" />
+                      <SelectValue placeholder="Seleccione una hora" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="7:00 a.m">7:00 a.m</SelectItem>
-                    <SelectItem value="8:00 a.m">8:00 a.m</SelectItem>
-                    <SelectItem value="9:00 a.m">9:00 a.m</SelectItem>
-                    <SelectItem value="10:00 a.m">10:00 a.m</SelectItem>
-                    <SelectItem value="11:00 a.m">11:00 a.m</SelectItem>
-                    <SelectItem value="12:00 a.m">12:00 a.m</SelectItem>
-                    <SelectItem value="1:00 pm">1:00 pm</SelectItem>
-                    <SelectItem value="2:00 pm">2:00 pm</SelectItem>
-                    <SelectItem value="3:00 pm">3:00 pm</SelectItem>
-                    <SelectItem value="4:00 pm">4:00 pm</SelectItem>
-                    <SelectItem value="5:00 pm">5:00 pm</SelectItem>
-                    <SelectItem value="6:00 pm">6:00 pm</SelectItem>
-                    <SelectItem value="7:00 pm">7:00 pm</SelectItem>
-                    <SelectItem value="8:00 pm">8:00 pm</SelectItem>
-                    <SelectItem value="9:00 pm">9:00 pm</SelectItem>
+                    <SelectItem value="07:00:00">7:00 a.m</SelectItem>
+                    <SelectItem value="08:00:00">8:00 a.m</SelectItem>
+                    <SelectItem value="09:00:00">9:00 a.m</SelectItem>
+                    <SelectItem value="10:00:00">10:00 a.m</SelectItem>
+                    <SelectItem value="11:00:00">11:00 a.m</SelectItem>
+                    <SelectItem value="12:00:00">12:00 a.m</SelectItem>
+                    <SelectItem value="13:00:00">1:00 pm</SelectItem>
+                    <SelectItem value="14:00:00">2:00 pm</SelectItem>
+                    <SelectItem value="15:00:00">3:00 pm</SelectItem>
+                    <SelectItem value="16:00:00">4:00 pm</SelectItem>
+                    <SelectItem value="17:00:00">5:00 pm</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

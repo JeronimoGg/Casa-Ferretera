@@ -1,19 +1,18 @@
 "use client";
 import LayoutProfile from "@/app/(landing)/layout";
 import { useEffect, useState } from "react";
-import FormularioProv from "@/components/formulario/form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import FormularioAgendar from "@/components/formulario/testForm";
+import CalificarPromotorForm from "@/components/formulario/calificarPromotor";
 
-const FormularioProveedor = () => {
+const CalificarPromotor = () => {
   const [data, setData] = useState<any[]>([]);
   const [error, setError] = useState<string | undefined>(undefined);
   const [rol, setRol] = useState<string | undefined>(undefined);
   const getPromotores = async () => {
     try {
         const token = localStorage.getItem('session');
-        const response = await fetch("/api/usuarios/promotores-asignados", {
+        const response = await fetch("/api/usuarios/promotores-sede", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -31,9 +30,8 @@ const FormularioProveedor = () => {
             return;
         }
         const { promotores } = await response.json();
-        const nombres = promotores.map((objeto: any) => objeto.nombre);
         if(data.length === 0){
-          setData(nombres);
+          setData(promotores);
         } 
     } catch (error) {
         console.log(error);
@@ -45,7 +43,7 @@ const FormularioProveedor = () => {
 
   if (error && rol) {
     return(
-        <LayoutProfile titulo={"Proveedor"}>
+        <LayoutProfile titulo={"Supervisor"}>
             
                 <div className="flex flex-col items-center justify-center mt-80">
                     <h1 className="text-5xl font-bold text-gray-700 dark:text-gray-200">Error</h1>
@@ -64,19 +62,14 @@ const FormularioProveedor = () => {
                       </Button>
                     }
                 </div>
-            
         </LayoutProfile>
     )
 }
-
-
-
     return (
-      <LayoutProfile titulo="Proveedor">
-        {/* <FormularioProv /> */}
-        {data.length > 0 && <FormularioAgendar nombres={data}/>}
+      <LayoutProfile titulo="Supervisor">
+        <CalificarPromotorForm nombres={data}/>
       </LayoutProfile>
     );
 };
 
-export default FormularioProveedor;
+export default CalificarPromotor;

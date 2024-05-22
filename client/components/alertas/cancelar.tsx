@@ -16,11 +16,27 @@ import { useRouter } from 'next/navigation'
 export function CancelarAlerta ({ numero }: { numero: string }) {
     const router = useRouter();
     const handleClick = async () => {
-        const id_promotoria: number = +numero;
-        console.log(id_promotoria);
+        const id: number = +numero;
         const token = localStorage.getItem('session');
+        try {
+          const response = await fetch(`/api/promotorias/cancelar-proveedor/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
+            }
+          });
+          if (!response.ok) {
+            const respuesta = await response.json();
+            console.log(respuesta);
+          }
+          const { mensaje }  = await response.json();
+          console.log(mensaje);
+          router.push('/proveedor');  
+        } catch (error) {
+          console.log(error);
+        }
         
-        router.push('/proveedor/cancel');
     }
 
     return (
