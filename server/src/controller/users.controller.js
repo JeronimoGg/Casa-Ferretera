@@ -16,12 +16,26 @@ const getPromotores = async (req, res) => {
     res.status(200).json(promotores);
 }
 
-const getPromotoresByProveedor = async (req, res) => {
+const getNamePromotoresByProveedor = async (req, res) => {
     const correo = req.correo;
     const proveedor = await Proveedor.findOne({ where: { correo: correo } });
     const promotores = await Promotor.findAll({
         where: { id_proveedor: proveedor.id_proveedor },
         attributes: ['nombre']
+    });
+    if(!promotores){
+        return res.status(400).json({ error: 'No tiene promotores asignados' });
+    }
+    res.status(200).json(promotores);
+}
+
+const getPromotoresByProveedor = async (req, res) => {
+    console.log("si entro a la funcion")
+    const correo = req.correo;
+    const proveedor = await Proveedor.findOne({ where: { correo: correo } });
+    const promotores = await Promotor.findAll({
+        where: { id_proveedor: proveedor.id_proveedor },
+        attributes: ['id_promotor', 'correo', 'nombre', 'calificacion']
     });
     if(!promotores){
         return res.status(400).json({ error: 'No tiene promotores asignados' });
@@ -253,7 +267,7 @@ const updateSupervisor = async (req, res) => {
 const getPromotoresBySede = async (req, res) => {
     const correo = req.correo;
     const supervisor = await Supervisor.findOne( { where: { correo: correo }});
-    const fecha = addDays(new Date(), 1);
+    const fecha = new Date();
     const colombiaTimezone = 'America/Bogota';
     const fechaFixed = format(fecha, 'yyyy-MM-dd', { timeZone: colombiaTimezone });
     const promotorias = await Promotoria.findAll({
@@ -280,6 +294,7 @@ const getPromotoresBySede = async (req, res) => {
 
 module.exports = {
     getPromotores,
+    getNamePromotoresByProveedor,
     getPromotoresByProveedor,
     getPromotor,
     getProveedores,

@@ -2,6 +2,7 @@
 import LayoutProfile from "../../layout";
 import calendar from "@/public/calendar.svg";
 import cancel from "@/public/cancel.svg";
+import user from "@/public/social.svg";
 import { Servicio } from "@/components/card/servicio";
 
 
@@ -27,6 +28,13 @@ const ProveedorPage = () => {
                     icon={cancel}
                     boton={"Cancelar"}
                     link={"/proveedor/cancel"}
+                />
+                <Servicio 
+                    titulo={"Administrar promotores"}
+                    descripcion={"Cree, edite o elimine sus promotores"}
+                    icon={user}
+                    boton={"promotres"}
+                    link={"/proveedor/promotores"}
                 />
             </div>
         </LayoutProfile>
