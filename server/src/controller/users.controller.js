@@ -4,7 +4,10 @@ const Proveedor = require('../models/Proveedor');
 const Supervisor = require('../models/Supervisor');
 const Empresa = require('../models/Empresa');
 const Sede = require('../models/Sede');
-const { Sequelize } = require('sequelize');
+const Promotoria = require('../models/Promotoria');
+const { Op } = require("sequelize");
+const { addDays } = require('date-fns');
+const { format } = require('date-fns-tz');
 
 const getPromotores = async (req, res) => {
     const promotores = await Promotor.findAll({
@@ -246,6 +249,35 @@ const updateSupervisor = async (req, res) => {
         return res.status(500).json({error: error.message})
     }
 }
+
+const getPromotoresBySede = async (req, res) => {
+    const correo = req.correo;
+    const supervisor = await Supervisor.findOne( { where: { correo: correo }});
+    const fecha = addDays(new Date(), 1);
+    const colombiaTimezone = 'America/Bogota';
+    const fechaFixed = format(fecha, 'yyyy-MM-dd', { timeZone: colombiaTimezone });
+    const promotorias = await Promotoria.findAll({
+        where: {
+        fecha: fechaFixed,
+        id_sede: supervisor.id_sede,
+        id_estado: {[Op.ne]: 4}
+        },
+        attributes: ['id_promotor']
+    })
+    const idPromotores = promotorias.map(promotoria => promotoria.id_promotor);
+    const idPromotoresUnicos = [...new Set(idPromotores)];
+
+    const nombres = await Promise.all(idPromotoresUnicos.map(async (nombre) => {
+        const promotor = await Promotor.findOne({
+            where: { id_promotor: nombre },
+            attributes: ['nombre']
+        });
+        return promotor.nombre;
+    }))
+
+    res.status(200).json(nombres);
+}
+
 module.exports = {
     getPromotores,
     getPromotoresByProveedor,
@@ -260,4 +292,5 @@ module.exports = {
     updatePromotor,
     updateProveedor,
     updateSupervisor,
+    getPromotoresBySede
 }

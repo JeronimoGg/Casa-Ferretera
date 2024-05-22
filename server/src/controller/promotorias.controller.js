@@ -3,11 +3,13 @@ const Proveedor = require('../models/Proveedor');
 const Promotor = require('../models/Promotor');
 const Estado = require('../models/Estado');
 const Empresa = require('../models/Empresa');
+const Calificacion = require('../models/Calificacion');
 const { Op } = require("sequelize");
 const Sede = require('../models/Sede');
 const Supervisor = require('../models/Supervisor');
 const { addDays } = require('date-fns');
 const { format } = require('date-fns-tz');
+const { calcularPromedioCalificacion } = require('../utils/promotorias.utils')
 
 
 const agendarPromotoriaProveedor = async (req, res) => {
@@ -335,6 +337,33 @@ const agregarDescripcion = async(req, res) => {
     
 }
 
+const calificarPromotor = async (req,res) => {
+    const { nombrePromotor, calificacion, comentario } = req.body;
+    const correo = req.correo;
+    try {
+        const supervisor = await Supervisor.findOne({ where: { correo: correo}});
+        const promotor = await Promotor.findOne({ where: {nombre: nombrePromotor}});
+        if(!promotor){
+            res.status(404).json({message: "No se encontro el promotor"});
+        }
+        const newCalificacion = new Calificacion({
+            id_promotor: promotor.id_promotor,
+            id_supervisor: supervisor.id_supervisor,
+            calificacion: calificacion,
+            comentario: comentario
+        })
+        await newCalificacion.save();
+        const promedio = await calcularPromedioCalificacion(promotor.id_promotor);
+        console.log(promedio)
+        await promotor.update({
+            calificacion: promedio
+        });
+        res.status(200).json({message: "Se guardo la calificacion."});
+    } catch (error) {
+        res.status(400).json(error);
+    }
+}
+
 module.exports = {
     agendarPromotoriaProveedor,
     promotoriasActivasProveedor,
@@ -344,5 +373,6 @@ module.exports = {
     agendarPromotoriaPromotor,
     agregarDescripcion,
     promotoriasSinDescripcion,
-    promotoriasActivasPromotor
+    promotoriasActivasPromotor,
+    calificarPromotor
 }

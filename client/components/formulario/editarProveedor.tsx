@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const formSchema = z.object({
   nombre: z.string().nonempty("Este campo es requerido"),
@@ -30,7 +31,10 @@ interface formValues {
   empresa: string;
 }
 
-export default function ProfileForm({ initialValues, id }: { initialValues: formValues, id: number}) {
+export default function FormularioEditarProveedor({ initialValues, id }: { initialValues: formValues, id: number}) {
+  const [data, setData] = useState<any>({})
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [rol, setRol] = useState<string | undefined>(undefined);
   const router = useRouter()
   const FormularioProv = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,7 +43,7 @@ export default function ProfileForm({ initialValues, id }: { initialValues: form
 
   async function onSubmit(values: z.infer<typeof formSchema>){
     const token = localStorage.getItem('session');
-    const response = await fetch(`/api/usuarios/promotores/${id}`, {
+    const response = await fetch(`/api/usuarios/proveedores/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -47,11 +51,21 @@ export default function ProfileForm({ initialValues, id }: { initialValues: form
       },
       body: JSON.stringify(values)
       });
-    const  { mensaje }  = await response.json();
-    console.log(mensaje);
-
-    router.push('/auxiliar-de-mercadeo/usuarios/promotores')
+    if(!response.ok){
+      const respuesta = await response.json();
+      if(respuesta.message && respuesta.rol){
+        setError(respuesta.message);
+        setRol(respuesta.rol.toLowerCase());
+      } else {
+        setError(respuesta.message);
+      }
+    } else{
+      const  { mensaje }  = await response.json();
+      console.log(mensaje);
+    }
   }
+
+  
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between px-24 pt-10">

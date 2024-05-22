@@ -49,7 +49,6 @@ const isProveedor = async (req, res, next) => {
 const isSupervisor = async (req, res, next) => {
     const correo = req.correo;
     const usuario = await buscarUsuarioPorCorreo(correo);
-    console.log(usuario);
     if(usuario.tipo === 'Supervisor') {
         next();
     } else {

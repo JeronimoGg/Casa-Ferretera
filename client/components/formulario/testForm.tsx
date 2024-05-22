@@ -232,7 +232,7 @@ export default function FormularioAgendar({ nombres } : { nombres: Array<string>
             name="horaFin"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Hora Inicio</FormLabel>
+                <FormLabel>Hora Final</FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>

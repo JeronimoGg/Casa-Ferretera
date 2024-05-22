@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { verifyToken, isAuxMercadeo, isProveedor } = require('../middleware/authJWT');
+const { verifyToken, isAuxMercadeo, isProveedor, isSupervisor } = require('../middleware/authJWT');
 const userController = require('../controller/users.controller')
 
 const router = new Router();
@@ -36,6 +36,8 @@ router.delete('/proveedor/:id', verifyToken, isAuxMercadeo, userController.delet
 router.get('/supervisor', verifyToken, isAuxMercadeo, userController.getSupervisores);
 router.get('/supervisor/:id', verifyToken, isAuxMercadeo, userController.getSupervisor);
 router.put('/supervisor/:id', verifyToken, isAuxMercadeo, userController.updateSupervisor);
-router.delete('/supervisor/:id', verifyToken, isAuxMercadeo, userController.deleteSupervisor)
+router.delete('/supervisor/:id', verifyToken, isAuxMercadeo, userController.deleteSupervisor);
+
+router.get('/promotores-sede', verifyToken, isSupervisor, userController.getPromotoresBySede);
 
 module.exports = router;
