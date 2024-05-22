@@ -103,11 +103,21 @@ const signIn = async (req, res) => {
     }
 }
 
+const getInfoUsuario = async (req, res) => {
+    const correo = req.correo;
+    let usuario = await buscarUsuarioPorCorreo(correo);
+    if(!usuario) {
+        return res.status(401).json({message: 'usuario no encontrado'});
+    } 
+    return res.status(200).json({message: usuario.tipo});
+}
+
 
 module.exports = { 
     signUpAux, 
     signUpProveedor, 
     signUpPromotorByProveedor,
     signupSupervisorByAuxMercadeo,
-    signIn 
+    signIn,
+    getInfoUsuario
 }

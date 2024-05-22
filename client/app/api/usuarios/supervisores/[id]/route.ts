@@ -5,7 +5,7 @@ export async function GET(request: Request, { params }: { params: { id: number }
     try {
         const { id } = params;
         const JWT = headers().get('Authorization')?.replace('Bearer ', '');
-        const response = await fetch(`http://localhost:5000/api/users/proveedor/${id}`,{
+        const response = await fetch(`http://localhost:5000/api/users/supervisor/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -27,33 +27,30 @@ export async function GET(request: Request, { params }: { params: { id: number }
     }
 }
 
-
-export async function PUT(request: Request, { params }: { params: { id: number } }){
+export async function PUT(request: Request, { params }: { params: { id: number } }) {
     try {
         const { id } = params;
-        const { nombre, correo, nombreEmpresa } = await request.json();
+        const { nombre, correo, nombreSede } = await request.json();
         const JWT = headers().get('Authorization')?.replace('Bearer ', '');
-        const response = await fetch(`http://localhost:5000/api/users/proveedor/${id}`,{
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${JWT}`
-                },
-                body: JSON.stringify({nombre, correo, nombreEmpresa})
-            });
+        const response = await fetch(`http://localhost:5000/api/users/supervisor/${id}`,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${JWT}`
+            },
+            body: JSON.stringify({nombre, correo, nombreSede})
+        });
         if(!response.ok){
-            const error  = await response.json();
+            const error = await response.json();
             return NextResponse.json(error, { status: 401 });
         }
         const { message } = await response.json();
         return NextResponse.json({
             mensaje: message
-        }, { status: 200 });
+        }, { status: 200 })
     } catch (error) {
         return NextResponse.json({
             error
         }, {status: 400})
     }
-    
-
 }

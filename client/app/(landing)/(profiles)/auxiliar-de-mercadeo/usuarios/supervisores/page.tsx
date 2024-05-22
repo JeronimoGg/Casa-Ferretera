@@ -74,14 +74,14 @@ const manageSupervisores = () => {
                     </thead>
                     <tbody>
                         {data.map((usuario, index) => (
-                            <tr key={usuario.id_promotor} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                            <tr key={usuario.id_supervisor} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900">{usuario.id_supervisor}</th>
                                 <td className="px-6 py-4 text-gray-800">{usuario.nombre}</td>
                                 <td className="px-6 py-4 text-gray-800">{usuario.correo}</td>
                                 <td className="px-6 py-4 text-gray-800">{usuario.sede}</td>
                                 <td className="px-6 py-4 text-gray-800">
                                     <div className="flex justify-center">
-                                        <Link href="#">
+                                        <Link href={`/auxiliar-de-mercadeo/usuarios/supervisores/${usuario.id_supervisor}`}>
                                             <Image src={editIcon} alt="boton editar" width={25} height={25} />
                                         </Link>
                                     </div>    

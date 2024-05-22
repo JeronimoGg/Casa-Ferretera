@@ -149,14 +149,38 @@ const cancelarPromotoria = async (req, res) => {
 }
 
 const promotoriasActivasAuxmercadeo = async (req, res) => {
-    const today = new Date().toISOString().slice(0, 10)
+    const fecha = new Date();
+    const colombiaTimezone = 'America/Bogota';
+    const fechaFixed = format(fecha, 'yyyy-MM-dd', { timeZone: colombiaTimezone });
     const promotorias = await Promotoria.findAll({
         where: {
-            fecha: today,
+            fecha: fechaFixed,
+            id_estado: {[Op.ne]: 4}
         }
     });
 
-    res.status(200).json(promotorias);
+    const resultados = await Promise.all(promotorias.map(async (promotoria) => {
+        const promotor = await Promotor.findByPk(promotoria.id_promotor);
+        const proveedor = await Proveedor.findByPk(promotoria.id_proveedor);
+        const sede = await Sede.findByPk(promotoria.id_sede);
+        const estado = await Estado.findByPk(promotoria.id_estado);
+        const empresa = await Empresa.findByPk(promotoria.id_empresa);
+
+        return {
+            id_promotoria: promotoria.id_promotoria,
+            nombre_promotor: promotor.nombre,
+            nombre_proveedor: proveedor.nombre,
+            nombre_sede: sede.nombre,
+            nombre_estado: estado.nombre,
+            nombre_empresa: empresa.nombre,
+            fecha: promotoria.fecha,
+            horaInicio: promotoria.horaInicio,
+            horaFinal: promotoria.horaFinal,
+            descripcion: promotoria.descripcion,
+        };
+    }));
+
+    res.status(200).json(resultados);
 }
 
 const promotoriasPendientes = async (req, res) => {
