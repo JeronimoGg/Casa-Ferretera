@@ -42,6 +42,37 @@ INSERT INTO `auxmercadeo` VALUES (1,'samuel@gmail.com','$2a$10$xtwJGy6KdjjpCcGAq
 UNLOCK TABLES;
 
 --
+-- Table structure for table `calificacion`
+--
+
+DROP TABLE IF EXISTS `calificacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `calificacion` (
+  `id_calificacion` int(11) NOT NULL AUTO_INCREMENT,
+  `id_promotor` int(11) NOT NULL,
+  `id_supervisor` int(11) NOT NULL,
+  `calificacion` int(11) NOT NULL,
+  `comentario` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_calificacion`),
+  KEY `fk_promotor_calificacion` (`id_promotor`),
+  KEY `fk_supervisor_calificacion` (`id_supervisor`),
+  CONSTRAINT `fk_promotor_calificacion` FOREIGN KEY (`id_promotor`) REFERENCES `promotor` (`id_promotor`),
+  CONSTRAINT `fk_supervisor_calificacion` FOREIGN KEY (`id_supervisor`) REFERENCES `supervisor` (`id_supervisor`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `calificacion`
+--
+
+LOCK TABLES `calificacion` WRITE;
+/*!40000 ALTER TABLE `calificacion` DISABLE KEYS */;
+INSERT INTO `calificacion` VALUES (3,1,3,4,''),(4,1,3,2,''),(5,1,3,5,''),(6,4,3,4,'buena la promotoria pero llego tarde'),(9,5,3,2,''),(10,4,3,5,'la promotoria fue perfecta');
+/*!40000 ALTER TABLE `calificacion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `empresa`
 --
 
@@ -107,7 +138,7 @@ CREATE TABLE `promotor` (
   PRIMARY KEY (`id_promotor`),
   KEY `fk_proveedor` (`id_proveedor`),
   CONSTRAINT `fk_proveedor` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedor` (`id_proveedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,7 +147,7 @@ CREATE TABLE `promotor` (
 
 LOCK TABLES `promotor` WRITE;
 /*!40000 ALTER TABLE `promotor` DISABLE KEYS */;
-INSERT INTO `promotor` VALUES (1,1,'dav@gmail.com','dav','$2a$10$JHu8ADe61d9r9Kwr6TTvluCvhDQYZlCazVUvaRVW2.G0RV.2Enmk6',3,'documento'),(4,1,'test2@gmail.com','daniel','$2a$10$.fHXe9s3CWUWExXF3a6ulOWZmJkyLh/TqwyS5IB1htlsqLl.w5LYq',3,'documento');
+INSERT INTO `promotor` VALUES (1,1,'dav@gmail.com','dav','$2a$10$JHu8ADe61d9r9Kwr6TTvluCvhDQYZlCazVUvaRVW2.G0RV.2Enmk6',4,'documento'),(4,1,'test2@gmail.com','daniel','$2a$10$.fHXe9s3CWUWExXF3a6ulOWZmJkyLh/TqwyS5IB1htlsqLl.w5LYq',5,'documento'),(5,1,'carlos@gmail.com','carlos','$2a$10$EEaEiciEM2952NtQ2SGvauRdQIIL9O.k0zxk9j4BjpfcZfkNxbjuy',2,'documento'),(6,1,'laura@gmail.com','laura','$2a$10$bXi8A7bcfR50I5b93nRIB.AqF98OupF.HBidLnwHfOECsT85AsmMC',3,'documento');
 /*!40000 ALTER TABLE `promotor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +182,7 @@ CREATE TABLE `promotoria` (
   CONSTRAINT `fk_proveedor_promotoria` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedor` (`id_proveedor`),
   CONSTRAINT `fk_sede_promotoria` FOREIGN KEY (`id_sede`) REFERENCES `sede` (`id_sede`),
   CONSTRAINT `promotoria_empresa_FK` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id_empresa`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +191,7 @@ CREATE TABLE `promotoria` (
 
 LOCK TABLES `promotoria` WRITE;
 /*!40000 ALTER TABLE `promotoria` DISABLE KEYS */;
-INSERT INTO `promotoria` VALUES (12,1,1,3,'2024-05-01','09:00:00','13:00:00',1,0,'','',1),(13,1,1,3,'2024-05-02','09:00:00','13:00:00',1,0,'','',1),(14,1,1,3,'2024-05-02','14:00:00','17:00:00',1,0,'','',1);
+INSERT INTO `promotoria` VALUES (12,1,1,3,'2024-05-01','09:00:00','13:00:00',1,0,'','',1),(13,1,1,3,'2024-05-02','09:00:00','13:00:00',1,0,'','',1),(14,1,1,3,'2024-05-02','14:00:00','17:00:00',1,0,'','',1),(15,1,1,3,'2024-05-09','09:00:00','12:00:00',1,0,'','',1),(16,1,1,3,'2024-05-09','13:00:00','16:00:00',1,0,'','',1),(17,1,1,2,'2024-05-16','07:00:00','08:00:00',4,0,'','',1),(20,1,1,2,'2024-05-16','07:00:00','08:00:00',4,0,'','',1),(21,1,1,2,'2024-05-16','07:00:00','08:00:00',4,0,'','',1),(22,1,1,2,'2024-05-16','07:00:00','08:00:00',4,0,'','',1),(23,1,1,2,'2024-05-16','07:00:00','08:00:00',4,0,'','',1),(24,1,1,5,'2024-05-20','07:00:00','11:00:00',4,0,'','',1),(25,1,1,5,'2024-05-20','07:00:00','11:00:00',4,0,'','',1),(26,1,1,3,'2024-05-20','07:00:00','10:00:00',1,0,'','',1),(27,1,1,3,'2024-05-20','12:00:00','15:00:00',1,0,'','',1),(28,1,1,2,'2024-05-21','07:00:00','10:00:00',1,0,'','prueba de agregar descripcion',1),(29,1,1,7,'2024-05-21','11:00:00','14:00:00',1,0,'','',1),(30,1,1,1,'2024-05-22','07:00:00','09:00:00',1,0,'','',1),(31,4,1,1,'2024-05-22','10:00:00','12:00:00',1,0,'','',1),(32,5,1,1,'2024-05-22','13:00:00','15:00:00',1,0,'','',1),(33,1,1,1,'2024-05-22','16:00:00','17:00:00',4,0,'','',1);
 /*!40000 ALTER TABLE `promotoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,7 +220,7 @@ CREATE TABLE `proveedor` (
 
 LOCK TABLES `proveedor` WRITE;
 /*!40000 ALTER TABLE `proveedor` DISABLE KEYS */;
-INSERT INTO `proveedor` VALUES (1,'juanes@gmail.com','$2a$10$JbYl2vevWHmQ6mSv/PlSmeYdaqsgvn6yTrXT8TKRyAFeUzG9S7EZy','juanes',1),(3,'jane_smith5678@gmail.com','$2a$10$F/qxnC/zz6SrB4NQrWSbh.JNTfKQuxwotslkZ8EWaaSSnD88TpmQO','Jane',2),(4,'alex_jones@gmail.com','$2a$10$8lwKDsi894WCq54RLVI9IOHEARSJcjLaiAghW0hbmKQvzkArqC7FC','Alex',3),(5,'john_doe@gmail.com','$2a$10$VpuLEu5lroC6vKOuY/4rGe6V5cGHIXqyl03tLxf5wTs2k8zYcdBy2','john',1),(6,'michael_wilson@gmail.com','$2a$10$d.y02RJbA79/HNFh.s0fbOlPdWR7qSs2zowNLQ45HUT1fiN6jKpeu','michael',3),(7,'chris_taylor@gmail.com','$2a$10$GRv42axJZXpKrGVnml0xU.Cl4YAs8vlXrp.nDYvpy.bzYIRNlkGEW','chris',2);
+INSERT INTO `proveedor` VALUES (1,'juanes@gmail.com','$2a$10$JbYl2vevWHmQ6mSv/PlSmeYdaqsgvn6yTrXT8TKRyAFeUzG9S7EZy','juanes',1),(3,'jane_smith5678@gmail.com','$2a$10$F/qxnC/zz6SrB4NQrWSbh.JNTfKQuxwotslkZ8EWaaSSnD88TpmQO','Jane',2),(4,'alex_jones@gmail.com','$2a$10$8lwKDsi894WCq54RLVI9IOHEARSJcjLaiAghW0hbmKQvzkArqC7FC','Alex',3),(5,'johndoe@gmail.com','$2a$10$VpuLEu5lroC6vKOuY/4rGe6V5cGHIXqyl03tLxf5wTs2k8zYcdBy2','john',1),(6,'michael_wilson@gmail.com','$2a$10$d.y02RJbA79/HNFh.s0fbOlPdWR7qSs2zowNLQ45HUT1fiN6jKpeu','michael',3),(7,'chris_taylor@gmail.com','$2a$10$GRv42axJZXpKrGVnml0xU.Cl4YAs8vlXrp.nDYvpy.bzYIRNlkGEW','chris',2);
 /*!40000 ALTER TABLE `proveedor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,7 +273,7 @@ CREATE TABLE `supervisor` (
 
 LOCK TABLES `supervisor` WRITE;
 /*!40000 ALTER TABLE `supervisor` DISABLE KEYS */;
-INSERT INTO `supervisor` VALUES (1,3,'manin@email.com','$2a$10$vPCl5nZQ8.T9gJclFh5OlO9RxlGuxweiTawtX7TTGRPPtQIQFcOCG','manin'),(3,1,'Emily12@email.com','$2a$10$7qfSRVHQN/RFXrUOdXMO3uNQqZVuH0XJFmBN1wT7d058CBzYglOyy','Emily'),(4,9,'amanda32@email.com','$2a$10$xEHg.VVzGrTby3RIxPi/oet871Rw7mCqG/Hys/2y5NkJ4wQ8cQ/XC','Amanda'),(5,8,'david58@email.com','$2a$10$dUq14Bcmn1uNX3xI1ZIOxOzfWbPBc.YUGepwU3EU71uuc5EootceW','David'),(6,4,'sebastian7@email.com','$2a$10$pJcMly0plf04j7W0ZnKOyuiRftu/W9zJVNL1BcukJhDULSAjvwuKu','Sebastian');
+INSERT INTO `supervisor` VALUES (1,3,'manin@email.com','$2a$10$vPCl5nZQ8.T9gJclFh5OlO9RxlGuxweiTawtX7TTGRPPtQIQFcOCG','manin'),(3,1,'Emily12@email.com','$2a$10$7qfSRVHQN/RFXrUOdXMO3uNQqZVuH0XJFmBN1wT7d058CBzYglOyy','Emily'),(4,9,'amanda32@email.com','$2a$10$xEHg.VVzGrTby3RIxPi/oet871Rw7mCqG/Hys/2y5NkJ4wQ8cQ/XC','Amanda'),(5,8,'david5@email.com','$2a$10$dUq14Bcmn1uNX3xI1ZIOxOzfWbPBc.YUGepwU3EU71uuc5EootceW','David'),(6,4,'sebastian7@email.com','$2a$10$pJcMly0plf04j7W0ZnKOyuiRftu/W9zJVNL1BcukJhDULSAjvwuKu','Sebastian');
 /*!40000 ALTER TABLE `supervisor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,4 +290,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-08 12:17:04
+-- Dump completed on 2024-05-22  3:22:02
