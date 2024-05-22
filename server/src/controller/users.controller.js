@@ -112,7 +112,7 @@ const getSupervisor = async (req, res) => {
         return res.status(400).json({ error: 'No se encontro el supervisor' });
     }
     const nombreSede = await Sede.findOne({
-        where: { id_sede: supervisor.id_supervisor },
+        where: { id_sede: supervisor.id_sede },
         attributes: ['nombre']
     });
     if(!nombreSede) {
@@ -122,7 +122,7 @@ const getSupervisor = async (req, res) => {
         id_supervisor: supervisor.id_supervisor,
         correo: supervisor.correo,
         nombre: supervisor.nombre,
-        empresa: nombreSede.nombre 
+        sede: nombreSede.nombre 
     }
     res.status(200).json(supervisorActualizado);
 }

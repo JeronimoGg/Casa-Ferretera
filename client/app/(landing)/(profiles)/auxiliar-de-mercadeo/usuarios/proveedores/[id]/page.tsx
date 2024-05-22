@@ -80,7 +80,7 @@ const editarProveedor = ({ params }:
 
     return(
         <LayoutProfile titulo={titulo}> 
-            <h1 className="text-center pt-5 font-bold text-3xl">Esta editando La informacion del promotor { initialValues.nombre }</h1>
+            <h1 className="text-center pt-5 font-bold text-3xl">Esta editando La informacion del supervisor { initialValues.nombre }</h1>
             {Object.keys(data).length > 0 && <FormularioProv initialValues={initialValues} id={data.id_proveedor} />}
         </LayoutProfile>
     )

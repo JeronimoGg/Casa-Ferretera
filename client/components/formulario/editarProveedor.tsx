@@ -6,6 +6,7 @@ import * as z from "zod";
 import { useRouter } from 'next/navigation'
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -19,9 +20,13 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 const formSchema = z.object({
-  nombre: z.string().nonempty("Este campo es requerido"),
+  nombre: z.string({
+    required_error: "Este campo es requerido",
+  }),
   correo: z.string().email("Este campo debe ser un email").nonempty("Este campo es requerido"),
-  empresa: z.string().nonempty("Este campo es requerido")
+  empresa: z.string({
+    required_error: "Este campo es requerido",
+  })
 });
 
 
@@ -32,9 +37,8 @@ interface formValues {
 }
 
 export default function FormularioEditarProveedor({ initialValues, id }: { initialValues: formValues, id: number}) {
-  const [data, setData] = useState<any>({})
+  const [mensaje, setMensaje] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [rol, setRol] = useState<string | undefined>(undefined);
   const router = useRouter()
   const FormularioProv = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,6 +46,7 @@ export default function FormularioEditarProveedor({ initialValues, id }: { initi
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>){
+    const { nombre, correo, empresa } = values
     const token = localStorage.getItem('session');
     const response = await fetch(`/api/usuarios/proveedores/${id}`, {
       method: 'PUT',
@@ -49,23 +54,21 @@ export default function FormularioEditarProveedor({ initialValues, id }: { initi
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(values)
+      body: JSON.stringify({nombre, correo, nombreEmpresa: empresa})
       });
     if(!response.ok){
       const respuesta = await response.json();
-      if(respuesta.message && respuesta.rol){
-        setError(respuesta.message);
-        setRol(respuesta.rol.toLowerCase());
-      } else {
-        setError(respuesta.message);
-      }
+        setError(respuesta.message); 
+        setMensaje(undefined);
     } else{
       const  { mensaje }  = await response.json();
       console.log(mensaje);
+      setMensaje(mensaje);
+      setError(undefined);
     }
   }
 
-  
+
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between px-24 pt-10">
@@ -73,6 +76,10 @@ export default function FormularioEditarProveedor({ initialValues, id }: { initi
         <form
           onSubmit={FormularioProv.handleSubmit(onSubmit)}
           className="max-w-md w-full flex flex-col gap-4">
+            {error && 
+            <p className="text-red-500 text-lg mt-4 text-center">
+            {error}
+            </p>}
           <FormField
             control={FormularioProv.control}
             name="nombre"
@@ -133,6 +140,16 @@ export default function FormularioEditarProveedor({ initialValues, id }: { initi
           <Button type="submit" className="w-full">
             Actualizar
           </Button>
+          {mensaje && 
+          <div className="text-center mt-4">
+            <p className="text-green-500 text-lg">{mensaje}</p>
+            <Button variant="outline">
+              <Link href={`/auxiliar-de-mercadeo/usuarios/proveedores`}>
+                  Volver
+              </Link>
+            </Button>
+          </div>
+          }
         </form>
       </Form>
     </div>
