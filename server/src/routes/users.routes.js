@@ -21,8 +21,9 @@ router.get('/promotor', verifyToken, isAuxMercadeo, userController.getPromotores
  * @param { number } id - El id del promotor
  * @returns { Object } - retorna el objeto del promotor, sino lo encuentra retorna un mensaje de error
  */
+router.get('/proveedor/promotores', verifyToken, isProveedor, userController.getPromotoresByProveedor)
 router.get('/promotor/:id', verifyToken, isAuxMercadeo, userController.getPromotor);
-router.get('/promotores', verifyToken, isProveedor , userController.getPromotoresByProveedor)
+router.get('/promotores', verifyToken, isProveedor , userController.getNamePromotoresByProveedor)
 router.delete('/promotor/:id', verifyToken, isAuxMercadeo, userController.deletePromotor);
 router.put('/promotor/:id', verifyToken, isAuxMercadeo, userController.updatePromotor);
 
