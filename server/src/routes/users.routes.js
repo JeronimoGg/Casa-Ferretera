@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { verifyToken, isAuxMercadeo, isProveedor, isSupervisor } = require('../middleware/authJWT');
+const { verifyToken, isAuxMercadeo, isProveedor, isSupervisor, isAuxOrProveedor } = require('../middleware/authJWT');
 const userController = require('../controller/users.controller')
 
 const router = new Router();
@@ -22,10 +22,10 @@ router.get('/promotor', verifyToken, isAuxMercadeo, userController.getPromotores
  * @returns { Object } - retorna el objeto del promotor, sino lo encuentra retorna un mensaje de error
  */
 router.get('/proveedor/promotores', verifyToken, isProveedor, userController.getPromotoresByProveedor)
-router.get('/promotor/:id', verifyToken, isAuxMercadeo, userController.getPromotor);
+router.get('/promotor/:id', verifyToken, isAuxOrProveedor, userController.getPromotor);
 router.get('/promotores', verifyToken, isProveedor , userController.getNamePromotoresByProveedor)
 router.delete('/promotor/:id', verifyToken, isAuxMercadeo, userController.deletePromotor);
-router.put('/promotor/:id', verifyToken, isAuxMercadeo, userController.updatePromotor);
+router.put('/promotor/:id', verifyToken, isAuxOrProveedor, userController.updatePromotor);
 
 //Crud para el rol de proveedor
 router.get('/proveedor', verifyToken, isAuxMercadeo, userController.getProveedores);

@@ -39,7 +39,7 @@ interface formValues {
 export default function FormularioEditarProveedor({ initialValues, id }: { initialValues: formValues, id: number}) {
   const [mensaje, setMensaje] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
-  const router = useRouter()
+  const router = useRouter();
   const FormularioProv = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialValues,
@@ -58,8 +58,8 @@ export default function FormularioEditarProveedor({ initialValues, id }: { initi
       });
     if(!response.ok){
       const respuesta = await response.json();
-        setError(respuesta.message); 
-        setMensaje(undefined);
+      setError(respuesta.message); 
+      setMensaje(undefined);
     } else{
       const  { mensaje }  = await response.json();
       console.log(mensaje);

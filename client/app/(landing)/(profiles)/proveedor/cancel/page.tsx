@@ -4,7 +4,7 @@ import { CancelPromotorias }  from "@/components/card/cancelPromotorias";
 import { useEffect, useState } from "react";
 
 
-const AuxiliarDeMercadeoPage = () => {
+const CancelarProveedor = () => {
      const [data, setData] = useState<any[]>([]); 
     
     const titulo = "Cancelar Promotorias";
@@ -65,4 +65,4 @@ const AuxiliarDeMercadeoPage = () => {
     );
   };
   
-  export default AuxiliarDeMercadeoPage;
+  export default CancelarProveedor;

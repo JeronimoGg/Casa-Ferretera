@@ -59,6 +59,7 @@ const FormSchema = z.object({
 export default function FormularioAgendar({ nombres } : { nombres: Array<string> }) {
     const router = useRouter();
     const [error, setError] = useState<string | undefined>(undefined);
+    const [mensaje, setMensaje] = useState<string | undefined>(undefined);
     const today = new Date();
     const twoDaysAfter = new Date(today.setDate(today.getDate()));
     const form = useForm<z.infer<typeof FormSchema>>({
@@ -83,18 +84,23 @@ export default function FormularioAgendar({ nombres } : { nombres: Array<string>
           if(!response.ok){
             const respuesta = await response.json();
             setError(respuesta.error);
+            setMensaje(undefined);
             return;
+          } else {
+            const { message } = await response.json();
+            setMensaje(message);
+            setError(undefined);
           }  
-          const { message } = await response.json();
-          console.log(message);
-          router.push('/proveedor');  
         } catch (error) {
-          
           console.log(error);
         }
         
     }
    
+    const handleVolver = () => {
+      router.back();
+    };
+
     return (
         <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <Form {...form}>
@@ -258,6 +264,14 @@ export default function FormularioAgendar({ nombres } : { nombres: Array<string>
             )}
           />
           <Button type="submit" className="w-full">Agendar</Button>
+          {mensaje && 
+          <div className="text-center mt-4">
+            <p className="text-green-500 text-lg">{mensaje}</p>
+            <Button variant="outline" onClick={handleVolver}>
+              Volver
+            </Button>
+          </div>
+          }
         </form>
       </Form>
       </div>

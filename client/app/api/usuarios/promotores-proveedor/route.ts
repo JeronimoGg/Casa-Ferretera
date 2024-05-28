@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 
 export async function GET(request: Request) {
-    console.log("si entro al route de promotores proveedor")
     try {
         const JWT = headers().get('Authorization')?.replace('Bearer ', '');
         const response = await fetch('http://localhost:5000/api/users/proveedor/promotores',{

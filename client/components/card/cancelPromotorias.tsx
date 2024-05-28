@@ -31,17 +31,27 @@ export const CancelPromotorias   = ({ numero, nombreEmpresa, nombreProveedor,  s
            
             <CardHeader>
                 <CardTitle className="underline text-3xl">Promotoria #{numero}</CardTitle>
-                <CardDescription>
-                    <ul>
-                        <li className="text-xl my-6">Nombre empresa: {nombreEmpresa}</li>
-                        <li className="text-xl mb-6">Nombre proveedor: {nombreProveedor}</li>
-                        <li className="text-xl mb-6">Sede de la promotoria: {sede}</li>
-                        <li className="text-xl mb-6">Fecha: {fecha}</li>
-                        <li className="text-xl mb-6">Hora: {hora}</li>
-                        <li className="text-xl mb-6">Descripcion: {descripcion}</li>
-                    </ul>
-                </CardDescription>
             </CardHeader>
+            <CardContent>
+                <p className="text-xl my-6">
+                    <strong>Nombre empresa:</strong> {nombreEmpresa}
+                </p>
+                <p className="text-xl mb-6">
+                    <strong>Nombre proveedor:</strong> {nombreProveedor}
+                </p>
+                <p className="text-xl mb-6">
+                    <strong>Sede de la promotoria:</strong> {sede}
+                </p>
+                <p className="text-xl mb-6">
+                    <strong>Fecha:</strong> {fecha}
+                </p>
+                <p className="text-xl mb-6">
+                    <strong>Hora:</strong> {hora}
+                </p>
+                <p className="text-xl mb-6">
+                    <strong>Descripcion:</strong> {descripcion}
+                </p>     
+            </CardContent>
             <CardFooter className="flex flex-col items-center">
                 {/* <Button className="bg-red-500 hover:bg-red-600" variant="secondary">
                     <Link onClick={handleClick} className="text-white" href={link}>Cancelar</Link>
