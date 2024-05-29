@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import editIcon from '@/public/edit-button.svg';
-import trashCan from '@/public/trash-can.svg';
+import { EliminarAlertaProveedor } from "@/components/alertas/eliminarProveedor";
 
 const manageProveedores = () => {
     const titulo = "Lista proveedores";
@@ -61,11 +61,11 @@ const manageProveedores = () => {
     return(
         <LayoutProfile titulo={titulo}>
             <div className="max-w-screen-lg mx-auto mt-12">
-            <div className="mb-8">
+            {/* <div className="mb-8">
                 <Button>
                     <Link href="proveedores/agregar-proveedor">Agregar proveedor</Link>
                 </Button>
-            </div>
+            </div> */}
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-center text-gray-500 ">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -94,9 +94,7 @@ const manageProveedores = () => {
                                 </td>
                                 <td className="px-6 py-4 text-gray-800">
                                     <div className="flex justify-center">
-                                        <Link href="#">
-                                            <Image src={trashCan} alt="boton borrar" width={25} height={25} />
-                                        </Link>
+                                    <EliminarAlertaProveedor numero={usuario.id_proveedor} nombre={usuario.nombre}/> 
                                     </div> 
                                 </td>
                             </tr>

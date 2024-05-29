@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import editIcon from '@/public/edit-button.svg';
-import trashCan from '@/public/trash-can.svg';
+import { EliminarAlertaSupervisor } from "@/components/alertas/eliminarSupervisor";
 
 const manageSupervisores = () => {
     const titulo = "Lista supervisores";
@@ -88,9 +88,7 @@ const manageSupervisores = () => {
                                 </td>
                                 <td className="px-6 py-4 text-gray-800">
                                     <div className="flex justify-center">
-                                        <Link href="#">
-                                            <Image src={trashCan} alt="boton borrar" width={25} height={25} />
-                                        </Link>
+                                    <EliminarAlertaSupervisor numero={usuario.id_supervisor} nombre={usuario.nombre}/> 
                                     </div> 
                                 </td>
                             </tr>

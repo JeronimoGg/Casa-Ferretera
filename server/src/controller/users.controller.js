@@ -173,7 +173,7 @@ const deleteProveedor = async (req, res) => {
             force: true
         });
 
-        res.status(200).json(proveedor);
+        res.status(200).json({ message: 'Eliminado correctamente' });
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
@@ -192,7 +192,7 @@ const deleteSupervisor = async (req, res) => {
             force: true
         });
 
-        res.status(200).json(supervisor);
+        res.status(200).json({ message: 'Eliminado correctamente' });
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
