@@ -1,11 +1,12 @@
 "use client";
 import LayoutProfile from "@/app/(landing)/layout";
 import SignUpPromotor from "@/components/formulario/agregarPromotorProveedor";
+import SignUpProveedor from "@/components/formulario/agregarProveedor";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const editarPromotor = () => {
+const CrearProveedor = () => {
     const [error, setError] = useState<string | undefined>(undefined);
     const [rol, setRol] = useState<string | undefined>(undefined);
     const titulo = 'Portal proveedor';
@@ -58,10 +59,10 @@ const editarPromotor = () => {
 
     return(
         <LayoutProfile titulo={titulo}> 
-            <h1 className="text-center pt-5 font-bold text-3xl">Esta creando un nuevo promotor</h1>
-            <SignUpPromotor />
+            <h1 className="text-center pt-5 font-bold text-3xl">Esta creando un nuevo proveedor</h1>
+            <SignUpProveedor />
         </LayoutProfile>
     )
 }
 
-export default editarPromotor;
+export default CrearProveedor;

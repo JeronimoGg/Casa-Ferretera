@@ -25,25 +25,51 @@ const signUpAux = async (req, res) => {
 
 const signUpProveedor = async (req, res) => {
     const { correo, contrasena, nombre, nombreEmpresa } = req.body;
-
-    const [empresa, created] = await Empresa.findOrCreate({
-        where: {
-            nombre: nombreEmpresa
-        },
-        defaults: {
-            nombre: nombreEmpresa
+    if(nombreEmpresa.toLowerCase() === 'casaferretera'){
+        const [empresa, created] = await Empresa.findOrCreate({
+            where: {
+                nombre: 'casa ferretera'
+            },
+            defaults: {
+                nombre: 'casa ferretera'
+            }
+        });
+        const proveedor = await Proveedor.findAll({where: {correo: correo}});
+        if(proveedor.length > 0) {
+            return res.status(400).json({ error: 'Ya existe un proveedor con ese correo' });
         }
-    });
-
-    const hashedPassword = await bcrypt.hash(contrasena, 10);
-    const newUserProveedor = new Proveedor({
-        correo,
-        contrasena: hashedPassword,
-        nombre,
-        id_empresa: empresa.id_empresa
-    });
-    await newUserProveedor.save();
-    res.status(200).json(newUserProveedor);
+        const hashedPassword = await bcrypt.hash(contrasena, 10);
+        const newUserProveedor = new Proveedor({
+            correo,
+            contrasena: hashedPassword,
+            nombre,
+            id_empresa: empresa.id_empresa
+        });
+        await newUserProveedor.save();
+        res.status(200).json({ message: 'Creado correctamente' });
+    } else {
+        const [empresa, created] = await Empresa.findOrCreate({
+            where: {
+                nombre: nombreEmpresa.toLowerCase()
+            },
+            defaults: {
+                nombre: nombreEmpresa.toLowerCase()
+            }
+        });
+        const proveedor = await Proveedor.findAll({where: {correo: correo}});
+        if(proveedor.length > 0) {
+            return res.status(400).json({ error: 'Ya existe un proveedor con ese correo' });
+        }
+        const hashedPassword = await bcrypt.hash(contrasena, 10);
+        const newUserProveedor = new Proveedor({
+            correo,
+            contrasena: hashedPassword,
+            nombre,
+            id_empresa: empresa.id_empresa
+        });
+        await newUserProveedor.save();
+        res.status(200).json({ message: 'Creado correctamente' });
+    }
 
 }
 

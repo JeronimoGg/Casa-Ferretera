@@ -15,30 +15,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-import {
-    Select,
-    SelectTrigger,
-    SelectItem,
-    SelectValue,
-    SelectContent,
-} from "@/components/ui/select";
-
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 const formSchema = z.object({
-    correo: z.string({ required_error: "Este campo es requerido" }).email("Este campo debe ser un email"),
-    sede: z.string({
-        required_error: "Por favor seleccione una sede",
+    correo: z.string().email("Este campo debe ser un email").nonempty("Este campo es requerido"),
+    nombre: z.string().nonempty("Este campo es requerido"),
+    nombreEmpresa: z.string().refine(value => !/\s/.test(value), {
+        message: "El campo no puede contener espacios.",
       }),
-    nombre: z.string({ required_error: "Este campo es requerido" }),
     contrasena: z.string(),
 });
 
 
-
-export default function SignUpSupervisor() {
+export default function SignUpProveedor() {
   const router = useRouter()
   const [mensaje, setMensaje] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -48,16 +38,16 @@ export default function SignUpSupervisor() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>){
-    const { nombre, correo, contrasena, sede } = values;
+    const { nombre, correo, contrasena, nombreEmpresa } = values;
     const token = localStorage.getItem('session');
     try {
-        const response = await fetch('/api/usuarios/crear-supervisor', {
+        const response = await fetch('/api/usuarios/crear-proveedor', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({nombre, correo, contrasena, sede})
+            body: JSON.stringify({nombre, correo, contrasena, nombreEmpresa})
         });
         if(!response.ok){
             const respuesta  = await response.json();
@@ -71,8 +61,8 @@ export default function SignUpSupervisor() {
     } catch (error) {
         console.log(error);
     }
-    
-  }
+    }
+
   const handleVolver = () => {
     router.back();
   };
@@ -92,15 +82,15 @@ export default function SignUpSupervisor() {
             name="nombre"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nombre del supervisor</FormLabel>
+                <FormLabel>Nombre del proveedor</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Introduzca el nombre completo del supervisor"
+                    placeholder="Introduzca el nombre completo del proveedor"
                     {...field}
                   />
                 </FormControl>
                 <FormDescription>
-                  Escribe el nombre completo del supervisor
+                  Escribe el nombre completo del proveedor
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -114,44 +104,35 @@ export default function SignUpSupervisor() {
                 <FormLabel>Correo Electronico</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Introduzca el correo electronico del supervisor"
+                      placeholder="Introduzca el correo electronico del proveedor"
                       {...field}
                     />
                   </FormControl> 
                   <FormDescription>
-                  Escribe el correo electronico del supervisor
+                  Escribe el correo electronico del promotor
                 </FormDescription> 
                 <FormMessage />
               </FormItem>
             )}
           />
           <FormField
-                control={FormularioProv.control}
-                name="sede"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Sedes disponibles</FormLabel>
-                    <Select onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecciona alguna sede" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="amador">Amador</SelectItem>
-                        <SelectItem value="america">America</SelectItem>
-                        <SelectItem value="palace">Palace</SelectItem>
-                        <SelectItem value="centro">Centro</SelectItem>
-                        <SelectItem value="itagui">Itagui</SelectItem>
-                        <SelectItem value="envigado">Envigado</SelectItem>
-                        <SelectItem value="rionegro">Rionegro</SelectItem>
-                        <SelectItem value="la ceja">La Ceja</SelectItem>
-                        <SelectItem value="apartado">Apartado</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
+            control={FormularioProv.control}
+            name="nombreEmpresa"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nombre de la empresa</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Introduzca la empresa del proveedor"
+                      {...field}
+                    />
+                  </FormControl> 
+                  <FormDescription>
+                  Escribe el nombre de la empresa
+                </FormDescription> 
+                <FormMessage />
+              </FormItem>
+            )}
           />
           <FormField
             control={FormularioProv.control}
@@ -161,13 +142,13 @@ export default function SignUpSupervisor() {
                 <FormLabel>Contraseña</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Introduzca la contraseña del supervisor"
+                      placeholder="Introduzca la contraseña del proveedor"
                       {...field}
                       type="password"
                     />
                   </FormControl> 
                   <FormDescription>
-                  Escribe la contraseña del supervisor
+                  Escribe la contraseña del proveedor
                 </FormDescription> 
                 <FormMessage />
               </FormItem>

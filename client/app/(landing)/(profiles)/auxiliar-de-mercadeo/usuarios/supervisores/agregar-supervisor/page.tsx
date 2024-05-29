@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const editarPromotor = () => {
+const CrearSupervisor = () => {
     const [error, setError] = useState<string | undefined>(undefined);
     const [rol, setRol] = useState<string | undefined>(undefined);
     const titulo = 'Portal proveedor';
@@ -64,4 +64,4 @@ const editarPromotor = () => {
     )
 }
 
-export default editarPromotor;
+export default CrearSupervisor;
