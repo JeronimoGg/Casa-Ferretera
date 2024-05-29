@@ -34,7 +34,6 @@ export function EliminarAlertaPromotor ({ numero, nombre }: { numero: string, no
             console.log(respuesta);
           }
           const respuesta  = await response.json();
-          console.log(respuesta);
           router.back();  
         } catch (error) {
           console.log(error);
