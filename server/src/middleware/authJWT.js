@@ -76,6 +76,21 @@ const isPromotor = async (req, res, next) => {
     }
 }
 
+const isAuxOrProveedor = async (req, res, next) => {
+    const correo = req.correo;
+    const usuario = await buscarUsuarioPorCorreo(correo);
+    if(usuario.tipo === 'AuxMercadeo' || usuario.tipo === 'Proveedor') {
+        next();
+    } else {
+        return res.status(403).json({
+            error: {
+                message: `Esta pagina solo la pueden ver Auxiliars de mercadeo o proveedores y tu rol es ${usuario.tipo}`,
+                rol: usuario.tipo
+        }
+    });
+    }
+}
+
 
 
 module.exports = {
@@ -83,5 +98,6 @@ module.exports = {
     isAuxMercadeo,
     isProveedor,
     isSupervisor,
-    isPromotor
+    isPromotor,
+    isAuxOrProveedor
 }

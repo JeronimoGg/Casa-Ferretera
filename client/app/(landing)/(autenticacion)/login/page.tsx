@@ -1,6 +1,6 @@
 "use client";
 import LayoutProfile from "@/app/(landing)/layout";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
 
 const Login = () => {
@@ -50,7 +50,9 @@ const Login = () => {
             console.log('Error al iniciar sesión:', error);
         }
     };
-    
+    useEffect(() => {
+        localStorage.removeItem('session');
+    }, []);
 
     return(
         <LayoutProfile titulo={titulo}>

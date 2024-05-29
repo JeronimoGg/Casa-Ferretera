@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const formSchema = z.object({
   nombre: z.string().nonempty("Este campo es requerido"),
@@ -32,6 +33,8 @@ interface formValues {
 
 export default function ProfileForm({ initialValues, id }: { initialValues: formValues, id: number}) {
   const router = useRouter()
+  const [mensaje, setMensaje] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
   const FormularioProv = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialValues,
@@ -47,11 +50,21 @@ export default function ProfileForm({ initialValues, id }: { initialValues: form
       },
       body: JSON.stringify(values)
       });
-    const  { mensaje }  = await response.json();
-    console.log(mensaje);
-
-    router.push('/auxiliar-de-mercadeo/usuarios/promotores')
+    if(!response.ok){
+      const respuesta = await response.json();
+      setError(respuesta.message); 
+      setMensaje(undefined);
+    } else {
+      const  { mensaje }  = await response.json();
+      console.log(mensaje);
+      setMensaje(mensaje);
+      setError(undefined);
+    }
   }
+
+  const handleVolver = () => {
+    router.back();
+  };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between px-24 pt-10">
@@ -120,6 +133,14 @@ export default function ProfileForm({ initialValues, id }: { initialValues: form
           <Button type="submit" className="w-full">
             Actualizar
           </Button>
+          {mensaje && 
+          <div className="text-center mt-4">
+            <p className="text-green-500 text-lg">{mensaje}</p>
+            <Button variant="outline" onClick={handleVolver}>
+              Volver
+            </Button>
+          </div>
+          }
         </form>
       </Form>
     </div>

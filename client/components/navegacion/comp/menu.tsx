@@ -36,6 +36,10 @@ export const MenuBar = () => {
               <MenubarItem>
                 <Link href="/auxiliar-de-mercadeo">Auxiliar de Mercadeo</Link>
               </MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem>
+                <Link href="/login">Cerrar sesion</Link>
+              </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
