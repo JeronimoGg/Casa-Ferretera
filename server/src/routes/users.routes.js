@@ -24,7 +24,7 @@ router.get('/promotor', verifyToken, isAuxMercadeo, userController.getPromotores
 router.get('/proveedor/promotores', verifyToken, isProveedor, userController.getPromotoresByProveedor)
 router.get('/promotor/:id', verifyToken, isAuxOrProveedor, userController.getPromotor);
 router.get('/promotores', verifyToken, isProveedor , userController.getNamePromotoresByProveedor)
-router.delete('/promotor/:id', verifyToken, isAuxMercadeo, userController.deletePromotor);
+router.delete('/promotor/:id', verifyToken, isAuxOrProveedor, userController.deletePromotor);
 router.put('/promotor/:id', verifyToken, isAuxOrProveedor, userController.updatePromotor);
 
 //Crud para el rol de proveedor

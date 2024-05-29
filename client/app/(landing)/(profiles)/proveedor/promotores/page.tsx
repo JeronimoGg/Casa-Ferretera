@@ -60,16 +60,22 @@ const managePromotores = () => {
 
     return(
         <LayoutProfile titulo={titulo}> 
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-w-screen-lg mx-auto mt-12">
-                <table className="w-full text-sm text-center text-gray-500 ">
+            <div className="max-w-screen-lg mx-auto mt-12">
+            <div className="mb-8">
+                <Button>
+                    <Link href="promotores/agregar-promotor">Agregar promotor</Link>
+                </Button>
+            </div>
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="w-full text-sm text-center text-gray-500">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" className="px-6 py-3 w-1/7"> ID </th>
-                            <th scope="col" className="px-6 py-3 w-1/7"> Nombre </th>
-                            <th scope="col" className="px-6 py-3 w-1/7"> Correo </th>
-                            <th scope="col" className="px-6 py-3 w-1/7"> Calificacion </th>
-                            <th scope="col" className="px-6 py-3 w-1/7"> Editar </th>
-                            <th scope="col" className="px-6 py-3 w-1/7"> Eliminar </th>
+                            <th scope="col" className="px-6 py-3 w-1/7">ID</th>
+                            <th scope="col" className="px-6 py-3 w-1/7">Nombre</th>
+                            <th scope="col" className="px-6 py-3 w-1/7">Correo</th>
+                            <th scope="col" className="px-6 py-3 w-1/7">Calificación</th>
+                            <th scope="col" className="px-6 py-3 w-1/7">Editar</th>
+                            <th scope="col" className="px-6 py-3 w-1/7">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,6 +104,7 @@ const managePromotores = () => {
                     </tbody>
                 </table>
             </div>
+        </div>
         </LayoutProfile>
     )
     

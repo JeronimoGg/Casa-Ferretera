@@ -52,6 +52,10 @@ const signUpPromotorByProveedor = async (req, res) => {
     const correoProveedor = req.correo;
 
     const proveedor = await buscarUsuarioPorCorreo(correoProveedor);
+    const promotor = await Promotor.findAll({where: {correo: correo}});
+    if(promotor.length > 0) {
+        return res.status(400).json({ error: 'Ya existe un promotor con ese correo' });
+    }
     const hashedPassword = await bcrypt.hash(contrasena, 10);
     
     const newUserPromotor = new Promotor({
@@ -63,7 +67,7 @@ const signUpPromotorByProveedor = async (req, res) => {
         documentos
     })
     await newUserPromotor.save();
-    res.status(200).json(newUserPromotor);
+    res.status(200).json({ message: 'Creado correctamente' });
 }
 
 const signupSupervisorByAuxMercadeo = async (req, res) => {
