@@ -39,17 +39,21 @@ const PromotoriasActivas = () => {
                 <h2 className="text-center text-5xl font-bold mt-9">Estan son tus promotorias programadas</h2>          
             </div>
             <div className="flex flex-row justify-center mt-16">
-                {data.map((item) => (
-                    <InfoPromotoria 
-                        key={item.id_promotoria}
-                        numero={item.id_promotoria}
-                        nombreEmpresa={item.nombre_empresa}
-                        nombreProveedor={item.nombre_proveedor}
-                        sede={item.nombre_sede}
-                        fecha={item.fecha}
-                        hora={`${item.horaInicio}-${item.horaFinal}`}
-                    />
-                ))}
+                {data.length === 0 ? (
+                    <p className="text-3xl">No Tienes promotorias activas</p>
+                ) : (
+                    data.map((item) => (
+                        <InfoPromotoria 
+                            key={item.id_promotoria}
+                            numero={item.id_promotoria}
+                            nombreEmpresa={item.nombre_empresa}
+                            nombreProveedor={item.nombre_proveedor}
+                            sede={item.nombre_sede}
+                            fecha={item.fecha}
+                            hora={`${item.horaInicio}-${item.horaFinal}`}
+                        />
+                    ))
+                )}
             </div>
         </LayoutProfile>
     )

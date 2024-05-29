@@ -22,6 +22,7 @@ router.post('/agendar', verifyToken, isPromotor, promotoriaController.agendarPro
 router.get('/revisar', verifyToken, isPromotor, promotoriaController.promotoriasActivasPromotor);
 router.get('/descripcion', verifyToken, isPromotor, promotoriaController.promotoriasSinDescripcion);
 router.put('/agregarDescripcion/:id', verifyToken, isPromotor, promotoriaController.agregarDescripcion);
+router.put('/cancelar-promotor/:id', verifyToken, isPromotor, promotoriaController.cancelarPromotoria);
 
 
 router.put('/subirFots');

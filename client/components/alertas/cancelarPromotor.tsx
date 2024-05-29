@@ -13,13 +13,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation'
 
-export function CancelarAlerta ({ numero }: { numero: string }) {
+export function CancelarAlertaPromotor ({ numero }: { numero: string }) {
     const router = useRouter();
     const handleClick = async () => {
         const id: number = +numero;
         const token = localStorage.getItem('session');
         try {
-          const response = await fetch(`/api/promotorias/cancelar-proveedor/${id}`, {
+          const response = await fetch(`/api/promotorias/cancelar-promotor/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
