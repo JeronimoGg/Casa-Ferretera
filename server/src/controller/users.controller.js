@@ -154,7 +154,7 @@ const deletePromotor = async (req, res) => {
             force: true
         });
 
-        res.status(200).json(promotor);
+        res.status(200).json({ message: 'Eliminado correctamente' });
     } catch (error) {
         res.status(500).json({ error: error.message })
     }

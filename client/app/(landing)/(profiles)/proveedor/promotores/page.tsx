@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import editIcon from '@/public/edit-button.svg';
-import trashCan from '@/public/trash-can.svg';
+import { EliminarAlertaPromotor } from "@/components/alertas/eliminarPromotor";
 
 const managePromotores = () => {
     const titulo = "Lista promotores";
@@ -94,9 +94,7 @@ const managePromotores = () => {
                                 </td>
                                 <td className="px-6 py-4 text-gray-800">
                                     <div className="flex justify-center">
-                                        <Link href="#">
-                                            <Image src={trashCan} alt="boton borrar" width={25} height={25} />
-                                        </Link>
+                                        <EliminarAlertaPromotor numero={usuario.id_promotor} nombre={usuario.nombre}/> 
                                     </div> 
                                 </td>
                             </tr>
