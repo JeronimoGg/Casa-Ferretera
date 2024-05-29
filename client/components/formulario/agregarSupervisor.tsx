@@ -15,17 +15,30 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
+import {
+    Select,
+    SelectTrigger,
+    SelectItem,
+    SelectValue,
+    SelectContent,
+} from "@/components/ui/select";
+
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 const formSchema = z.object({
-    correo: z.string().email("Este campo debe ser un email").nonempty("Este campo es requerido"),
-    nombre: z.string().nonempty("Este campo es requerido"),
+    correo: z.string({ required_error: "Este campo es requerido" }).email("Este campo debe ser un email"),
+    sede: z.string({
+        required_error: "Por favor seleccione una sede",
+      }),
+    nombre: z.string({ required_error: "Este campo es requerido" }),
     contrasena: z.string(),
 });
 
 
-export default function SignUpPromotor() {
+
+export default function SignUpSupervisor() {
   const router = useRouter()
   const [mensaje, setMensaje] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -35,27 +48,34 @@ export default function SignUpPromotor() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>){
-    const { nombre, correo, contrasena } = values;
+    const { nombre, correo, contrasena, sede } = values;
     const token = localStorage.getItem('session');
-    const response = await fetch('/api/usuarios/crear-promotor', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({nombre, correo, contrasena})
+    try {
+        const response = await fetch('/api/usuarios/crear-supervisor', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({nombre, correo, contrasena, sede})
         });
         if(!response.ok){
             const respuesta  = await response.json();
+            console.log(respuesta);
             setError(respuesta.error);
             setMensaje(undefined);
             return
         }
-        const {respuesta}  = await response.json();
-        setMensaje(respuesta.message);
-        setError(undefined);
+        const { respuesta }  = await response.json();
+            setMensaje(respuesta.message);
+            setError(undefined);
+            console.log(respuesta);
+            console.log(response.status)
+    } catch (error) {
+        console.log(error);
     }
-
+    
+  }
   const handleVolver = () => {
     router.back();
   };
@@ -107,6 +127,34 @@ export default function SignUpPromotor() {
                 <FormMessage />
               </FormItem>
             )}
+          />
+          <FormField
+                control={FormularioProv.control}
+                name="sede"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sedes disponibles</FormLabel>
+                    <Select onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecciona alguna sede" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="amador">Amador</SelectItem>
+                        <SelectItem value="america">America</SelectItem>
+                        <SelectItem value="palace">Palace</SelectItem>
+                        <SelectItem value="centro">Centro</SelectItem>
+                        <SelectItem value="itagui">Itagui</SelectItem>
+                        <SelectItem value="envigado">Envigado</SelectItem>
+                        <SelectItem value="rionegro">Rionegro</SelectItem>
+                        <SelectItem value="la ceja">La Ceja</SelectItem>
+                        <SelectItem value="apartado">Apartado</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
           />
           <FormField
             control={FormularioProv.control}

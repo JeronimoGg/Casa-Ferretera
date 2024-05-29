@@ -60,7 +60,13 @@ const manageSupervisores = () => {
 
     return(
         <LayoutProfile titulo={titulo}> 
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-w-screen-lg mx-auto mt-12">
+            <div className="max-w-screen-lg mx-auto mt-12">
+            <div className="mb-8">
+                <Button>
+                    <Link href="supervisores/agregar-supervisor">Agregar supervisor</Link>
+                </Button>
+            </div>
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-center text-gray-500 ">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -95,6 +101,7 @@ const manageSupervisores = () => {
                         ))}
                     </tbody>
                 </table>
+            </div>
             </div>
         </LayoutProfile>
     )

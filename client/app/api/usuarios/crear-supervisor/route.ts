@@ -4,15 +4,15 @@ import { headers } from "next/headers";
 export async function POST(request: NextRequest) {
     try {
         
-        const { nombre, correo, contrasena } = await request.json();
+        const { nombre, correo, contrasena, sede } = await request.json();
         const JWT = headers().get('Authorization')?.replace('Bearer ', '');
-        const response = await fetch('http://localhost:5000/api/auth/signupPromotor',{
+        const response = await fetch('http://localhost:5000/api/auth/signupSupervisor',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${JWT}`
             },
-            body: JSON.stringify({ nombre, correo, contrasena, undefined})
+            body: JSON.stringify({ nombre, correo, contrasena, nombreSede: sede})
         })
 
         if(!response.ok){
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
         }
 
         const respuesta  = await response.json();
-
+        
         return NextResponse.json({
             respuesta
         }, { status: 200 })

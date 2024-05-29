@@ -72,11 +72,14 @@ const signUpPromotorByProveedor = async (req, res) => {
 
 const signupSupervisorByAuxMercadeo = async (req, res) => {
     const { nombreSede, correo, contrasena, nombre } = req.body;
-
     const hashedPassword = await bcrypt.hash(contrasena, 10);
     const sede = await Sede.findOne({ where: { nombre: nombreSede }});
     if(!sede) {
         return res.status(400).json({ message: 'La sede no existe' });
+    }
+    const supervisor = await Supervisor.findAll({where: {correo: correo}});
+    if(supervisor.length > 0) {
+        return res.status(400).json({ error: 'Ya existe un supervisor con ese correo' });
     }
     const newUserSupervisor = new Supervisor({
         id_sede: sede.id_sede,
@@ -85,7 +88,7 @@ const signupSupervisorByAuxMercadeo = async (req, res) => {
         nombre
     });
     await newUserSupervisor.save();
-    res.status(200).json(newUserSupervisor);
+    res.status(200).json({ message: 'Creado correctamente' });
 }
 
 const signIn = async (req, res) => {
